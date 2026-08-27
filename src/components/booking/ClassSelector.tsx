@@ -34,7 +34,7 @@ export function ClassSelector({ value, onChange }: ClassSelectorProps) {
         <ChevronDown className={cn('w-4 h-4 text-gray-400 transition-transform', isOpen && 'rotate-180')} />
       </button>
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-1 z-50 animate-slide-down">
+        <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-1 z-[60] animate-slide-down">
           {travelClasses.map((cls) => (
             <button
               key={cls.code}

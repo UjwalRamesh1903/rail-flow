@@ -36,7 +36,7 @@ interface BookingContextType {
 const defaultSearch: BookingSearch = {
   from: getStationByCode('NDLS') ?? null,
   to: getStationByCode('MMCT') ?? null,
-  date: new Date(2025, 4, 22),
+  date: addDays(startOfDay(new Date()), 7),
   travelClass: 'ALL',
   adults: 1,
   children: 0,

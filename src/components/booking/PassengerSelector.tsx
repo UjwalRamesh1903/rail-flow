@@ -51,7 +51,7 @@ export function PassengerSelector({ adults, children, onChange }: PassengerSelec
         <ChevronDown className={cn('w-4 h-4 text-gray-400 transition-transform', isOpen && 'rotate-180')} />
       </button>
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 p-4 z-50 animate-slide-down">
+        <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 p-4 z-[60] animate-slide-down">
           <div className="flex items-center justify-between mb-4">
             <div>
               <div className="font-medium text-sm text-gray-900">Adults</div>
