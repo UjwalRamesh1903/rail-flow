@@ -4,12 +4,12 @@ export function IRCTCLogo({ className = '' }: { className?: string }) {
       <div className="relative w-11 h-11 shrink-0">
         <svg viewBox="0 0 48 48" fill="none" className="w-full h-full" aria-label="IRCTC Logo">
           {/* Outer ring */}
-          <circle cx="24" cy="24" r="23" fill="#004595" />
+          <circle cx="24" cy="24" r="23" fill="#0052CC" />
           <circle cx="24" cy="24" r="21" fill="none" stroke="#ffffff" strokeWidth="0.75" opacity="0.9" />
 
           {/* Inner wheel hub */}
           <circle cx="24" cy="24" r="4.5" fill="#ffffff" />
-          <circle cx="24" cy="24" r="2.2" fill="#004595" />
+          <circle cx="24" cy="24" r="2.2" fill="#0052CC" />
 
           {/* Wheel spokes - Indian Railways style */}
           {Array.from({ length: 16 }).map((_, i) => {
@@ -43,7 +43,7 @@ export function IRCTCLogo({ className = '' }: { className?: string }) {
         </svg>
       </div>
       <div className="flex flex-col leading-none">
-        <span className="text-[1.35rem] font-extrabold text-[#004595] tracking-tight">IRCTC</span>
+        <span className="text-[1.35rem] font-extrabold text-[#0052CC] tracking-tight">IRCTC</span>
         <span className="text-[11px] text-gray-500 font-medium mt-0.5 tracking-wide">Indian Railways</span>
       </div>
     </div>

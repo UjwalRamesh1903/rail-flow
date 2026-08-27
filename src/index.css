@@ -2,10 +2,10 @@
 @import "tailwindcss";
 
 @theme {
-  --color-irctc-blue: #004595;
-  --color-irctc-blue-dark: #003a7a;
-  --color-irctc-blue-light: #e8f0fe;
-  --color-irctc-blue-hover: #0056b3;
+  --color-irctc-blue: #0052CC;
+  --color-irctc-blue-dark: #003d99;
+  --color-irctc-blue-light: #e8f2ff;
+  --color-irctc-blue-hover: #0066FF;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 

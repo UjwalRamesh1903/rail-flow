@@ -2,29 +2,34 @@ import { SearchCard } from '../booking/SearchCard'
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative overflow-hidden min-h-[520px] lg:min-h-[580px]">
+      {/* Vande Bharat background */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=1600&h=600&fit=crop"
+          src="/images/vande-bharat-hero.jpg"
           alt="Vande Bharat Express train"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-[75%_center] lg:object-[right_center]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent" />
+        {/* Light gradient — train stays visible on the right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/75 to-white/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-32 lg:pt-14 lg:pb-40">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-36 lg:pt-16 lg:pb-44">
         <div className="max-w-xl">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-extrabold text-gray-900 leading-[1.1] tracking-tight">
             Easy Booking,{' '}
-            <span className="text-irctc-blue">Happy Journey</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0052CC] to-[#0080FF]">
+              Happy Journey
+            </span>
           </h1>
-          <p className="mt-3 text-gray-600 text-sm sm:text-base max-w-md">
+          <p className="mt-4 text-gray-600 text-base sm:text-lg max-w-md leading-relaxed">
             Book train tickets in just a few clicks. Safe, Secure &amp; Trusted by Millions.
           </p>
         </div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 lg:-mt-24 z-10">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 lg:-mt-28 z-10">
         <SearchCard id="booking-search" />
       </div>
     </section>

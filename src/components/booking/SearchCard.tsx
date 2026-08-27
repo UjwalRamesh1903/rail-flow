@@ -43,7 +43,7 @@ export function SearchCard({ id }: SearchCardProps) {
 
   return (
     <>
-      <div id={id} className="bg-white rounded-2xl shadow-xl border border-gray-100">
+      <div id={id} className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,82,204,0.25)] border border-white/80 ring-1 ring-gray-100">
         <div className="flex flex-col lg:flex-row lg:items-stretch">
           {/* From */}
           <button
