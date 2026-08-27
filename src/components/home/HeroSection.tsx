@@ -2,7 +2,7 @@ import { SearchCard } from '../booking/SearchCard'
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden min-h-[520px] lg:min-h-[580px]">
+    <section className="relative overflow-hidden min-h-[460px] lg:min-h-[500px]">
       {/* Vande Bharat background */}
       <div className="absolute inset-0">
         <img
@@ -15,7 +15,7 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-36 lg:pt-16 lg:pb-44">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-28 lg:pt-12 lg:pb-32">
         <div className="max-w-xl">
           <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-extrabold text-gray-900 leading-[1.1] tracking-tight">
             Easy Booking,{' '}
@@ -29,7 +29,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 lg:-mt-28 z-10">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 lg:-mt-22 z-10">
         <SearchCard id="booking-search" />
       </div>
     </section>

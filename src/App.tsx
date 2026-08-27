@@ -22,6 +22,7 @@ import { FAQPage } from './pages/FAQPage'
 import { ContactPage } from './pages/ContactPage'
 import { FeedbackPage } from './pages/FeedbackPage'
 import { LoginPage } from './pages/LoginPage'
+import { SeatSelectionPage } from './pages/SeatSelectionPage'
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
         <AuthProvider>
           <BookingProvider>
             <Routes>
+              <Route path="/seat-selection" element={<SeatSelectionPage />} />
               <Route element={<Layout />}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/book-ticket" element={<BookTicketPage />} />

@@ -146,7 +146,7 @@ export function SearchCard({ id }: SearchCardProps) {
           {/* Search Button */}
           <button
             onClick={handleSearch}
-            className="flex items-center justify-center gap-2 bg-irctc-blue hover:bg-irctc-blue-dark text-white font-semibold px-6 py-5 lg:py-0 transition-all active:scale-[0.98] min-w-[160px] rounded-b-2xl lg:rounded-b-none lg:rounded-r-2xl"
+            className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#0052CC] to-[#0080FF] hover:from-[#0047b3] hover:to-[#0066cc] text-white font-semibold px-6 py-5 lg:py-0 transition-all active:scale-[0.98] min-w-[160px] rounded-b-2xl lg:rounded-b-none lg:rounded-r-2xl shadow-lg shadow-blue-500/30"
           >
             <Search className="w-5 h-5" />
             <span className="text-sm">Search Trains</span>

@@ -32,9 +32,12 @@ export interface Train {
 
 export interface Passenger {
   name: string
-  age: number
+  age: number | ''
   gender: 'Male' | 'Female' | 'Transgender'
   berth?: string
+  coach?: string
+  berthNumber?: number
+  berthType?: string
 }
 
 export interface BookingSearch {
@@ -113,3 +116,5 @@ export interface User {
   email: string
   phone: string
 }
+
+export type { Berth, BerthType, BerthStatus, Coach, SeatAssignment, BookingExtras } from '../data/ntesCoachData'

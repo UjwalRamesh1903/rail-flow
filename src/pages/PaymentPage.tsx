@@ -8,14 +8,15 @@ import { cn } from '../utils/cn'
 
 export function PaymentPage() {
   const navigate = useNavigate()
-  const { selectedTrain, passengers, confirmBooking, walletBalance, deductWallet } = useBooking()
+  const { selectedTrain, passengers, confirmBooking, walletBalance, deductWallet, bookingExtras } = useBooking()
   const { showToast } = useToast()
   const [method, setMethod] = useState('card')
   const [processing, setProcessing] = useState(false)
 
   if (!selectedTrain) { navigate('/trains'); return null }
 
-  const totalFare = selectedTrain.selectedClass.fare * passengers.length
+  const insuranceFee = bookingExtras.travelInsurance ? Math.round(0.45 * passengers.length) : 0
+  const totalFare = selectedTrain.selectedClass.fare * passengers.length + insuranceFee
 
   const handlePay = async () => {
     setProcessing(true)

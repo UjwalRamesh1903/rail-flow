@@ -6,6 +6,7 @@ import type {
   Passenger,
   Booking,
 } from '../types'
+import type { SeatAssignment, BookingExtras } from '../data/ntesCoachData'
 import { getStationByCode } from '../utils/searchStations'
 import { generatePNR } from '../utils/formatDate'
 import { addDays, startOfDay } from 'date-fns'
@@ -22,6 +23,10 @@ interface BookingContextType {
   setSelectedTrain: (train: SelectedTrain) => void
   passengers: Passenger[]
   setPassengerDetails: (passengers: Passenger[]) => void
+  bookingExtras: BookingExtras
+  setBookingExtras: (extras: BookingExtras) => void
+  seatAssignments: SeatAssignment[]
+  setSeatAssignments: (assignments: SeatAssignment[]) => void
   lastBooking: Booking | null
   confirmBooking: () => Booking
   resetBooking: () => void
@@ -42,12 +47,25 @@ const defaultSearch: BookingSearch = {
   children: 0,
 }
 
+const defaultExtras: BookingExtras = {
+  email: '',
+  mobile: '',
+  idProofType: 'Aadhaar',
+  travelInsurance: false,
+  autoUpgrade: false,
+  confirmBerths: true,
+  boardingStation: '',
+  reservationUpto: '',
+}
+
 const BookingContext = createContext<BookingContextType | null>(null)
 
 export function BookingProvider({ children }: { children: ReactNode }) {
   const [search, setSearch] = useState<BookingSearch>(defaultSearch)
   const [selectedTrain, setSelectedTrain] = useState<SelectedTrain | null>(null)
   const [passengers, setPassengers] = useState<Passenger[]>([])
+  const [bookingExtras, setBookingExtras] = useState<BookingExtras>(defaultExtras)
+  const [seatAssignments, setSeatAssignments] = useState<SeatAssignment[]>([])
   const [lastBooking, setLastBooking] = useState<Booking | null>(null)
   const [walletBalance, setWalletBalance] = useState(2500)
   const [walletTransactions, setWalletTransactions] = useState<BookingContextType['walletTransactions']>([
@@ -87,6 +105,18 @@ export function BookingProvider({ children }: { children: ReactNode }) {
 
   const confirmBooking = useCallback((): Booking => {
     const pnr = generatePNR()
+    const passengersWithBerths = passengers.map((p, i) => {
+      const seat = seatAssignments.find((s) => s.passengerIndex === i)
+      return {
+        ...p,
+        age: typeof p.age === 'number' ? p.age : 0,
+        coach: seat?.coachLabel,
+        berthNumber: seat?.berthNumber,
+        berthType: seat?.berthType,
+        berth: seat ? `${seat.coachLabel} - ${seat.berthNumber} (${seat.berthType})` : undefined,
+      }
+    })
+    const insuranceFee = bookingExtras.travelInsurance ? 0.45 * passengers.length : 0
     const booking: Booking = {
       id: `bk-${Date.now()}`,
       pnr,
@@ -100,18 +130,20 @@ export function BookingProvider({ children }: { children: ReactNode }) {
       departure: selectedTrain!.train.departure,
       arrival: selectedTrain!.train.arrival,
       class: selectedTrain!.selectedClass.name,
-      passengers,
+      passengers: passengersWithBerths,
       status: 'Confirmed',
-      fare: selectedTrain!.selectedClass.fare * (search.adults + search.children),
+      fare: selectedTrain!.selectedClass.fare * passengers.length + Math.round(insuranceFee),
       bookedOn: new Date().toISOString().split('T')[0],
     }
     setLastBooking(booking)
     return booking
-  }, [selectedTrain, search, passengers])
+  }, [selectedTrain, search, passengers, seatAssignments, bookingExtras])
 
   const resetBooking = useCallback(() => {
     setSelectedTrain(null)
     setPassengers([])
+    setSeatAssignments([])
+    setBookingExtras(defaultExtras)
   }, [])
 
   const addWalletMoney = useCallback((amount: number) => {
@@ -150,6 +182,10 @@ export function BookingProvider({ children }: { children: ReactNode }) {
         setSelectedTrain,
         passengers,
         setPassengerDetails,
+        bookingExtras,
+        setBookingExtras,
+        seatAssignments,
+        setSeatAssignments,
         lastBooking,
         confirmBooking,
         resetBooking,
