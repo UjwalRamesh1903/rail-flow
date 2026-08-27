@@ -39,7 +39,10 @@ export function ConfirmationPage() {
         <div className="mt-4 pt-4 border-t border-gray-100">
           <h4 className="font-semibold text-sm mb-2">Passengers</h4>
           {lastBooking.passengers.map((p, i) => (
-            <div key={i} className="text-sm text-gray-600">{p.name} - {p.age} yrs, {p.gender}</div>
+            <div key={i} className="text-sm text-gray-600 py-1">
+              {p.name} — {p.age} yrs, {p.gender}
+              {p.berth && <span className="block text-irctc-blue font-medium text-xs mt-0.5">{p.berth}</span>}
+            </div>
           ))}
         </div>
       </div>
