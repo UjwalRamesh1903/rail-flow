@@ -1,4 +1,5 @@
 import type { Train } from '../types'
+import { getStationByCode } from '../utils/searchStations'
 
 const classTemplates = [
   { code: '1A', name: 'AC First Class', baseFare: 4500 },
@@ -179,6 +180,11 @@ export function getTrainsForRoute(fromCode: string, toCode: string): Train[] {
     'Intercity Express', 'Garib Rath', 'Jan Shatabdi',
   ]
 
+  const fromStation = getStationByCode(fromCode)
+  const toStation = getStationByCode(toCode)
+  const fromName = fromStation?.name ?? fromCode
+  const toName = toStation?.name ?? toCode
+
   for (let i = 0; i < 12; i++) {
     const depHour = 5 + Math.floor(i * 1.5)
     const depMin = (i * 17) % 60
@@ -189,11 +195,11 @@ export function getTrainsForRoute(fromCode: string, toCode: string): Train[] {
     routeTrains.push({
       id: `gen-${fromCode}-${toCode}-${i}`,
       number: String(12000 + i * 111 + Math.floor(Math.random() * 50)),
-      name: `${fromCode} ${names[i % names.length]}`,
+      name: `${fromName} ${names[i % names.length]}`,
       type: types[i % types.length],
-      from: fromCode,
+      from: fromName,
       fromCode,
-      to: toCode,
+      to: toName,
       toCode,
       departure: `${String(depHour).padStart(2, '0')}:${String(depMin).padStart(2, '0')}`,
       arrival: `${String(arrHour).padStart(2, '0')}:${String(arrMin).padStart(2, '0')}`,
