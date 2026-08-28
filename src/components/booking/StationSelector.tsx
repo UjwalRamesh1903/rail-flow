@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { Search, MapPin } from 'lucide-react'
 import { Modal } from '../ui/Modal'
 import { searchStations } from '../../utils/searchStations'
@@ -14,28 +14,28 @@ interface StationSelectorProps {
 
 export function StationSelector({ isOpen, onClose, onSelect, title, selectedStation }: StationSelectorProps) {
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState<Station[]>([])
+  const results = useMemo(() => searchStations(query, 50), [query])
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (isOpen) {
-      setQuery('')
-      setResults(searchStations('', 50))
       setTimeout(() => inputRef.current?.focus(), 100)
     }
   }, [isOpen])
 
-  useEffect(() => {
-    setResults(searchStations(query, 50))
-  }, [query])
 
-  const handleSelect = (station: Station) => {
-    onSelect(station)
+  const handleClose = () => {
+    setQuery('')
     onClose()
   }
 
+  const handleSelect = (station: Station) => {
+    onSelect(station)
+    handleClose()
+  }
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={title} size="lg">
+    <Modal isOpen={isOpen} onClose={handleClose} title={title} size="lg">
       <div className="p-4">
         <div className="relative mb-4">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />

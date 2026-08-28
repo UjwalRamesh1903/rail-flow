@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react'
+import { useState, useCallback, type ReactNode } from 'react'
 import type {
   BookingSearch,
   Station,
@@ -11,33 +11,7 @@ import { getStationByCode } from '../utils/searchStations'
 import { generatePNR } from '../utils/formatDate'
 import { addDays, startOfDay } from 'date-fns'
 
-interface BookingContextType {
-  search: BookingSearch
-  setFrom: (station: Station) => void
-  setTo: (station: Station) => void
-  swapStations: () => void
-  setDate: (date: Date) => void
-  setTravelClass: (cls: string) => void
-  setPassengers: (adults: number, children: number) => void
-  selectedTrain: SelectedTrain | null
-  setSelectedTrain: (train: SelectedTrain) => void
-  passengers: Passenger[]
-  setPassengerDetails: (passengers: Passenger[]) => void
-  bookingExtras: BookingExtras
-  setBookingExtras: (extras: BookingExtras) => void
-  seatAssignments: SeatAssignment[]
-  setSeatAssignments: (assignments: SeatAssignment[]) => void
-  lastBooking: Booking | null
-  confirmBooking: () => Booking
-  resetBooking: () => void
-  walletBalance: number
-  addWalletMoney: (amount: number) => void
-  deductWallet: (amount: number) => boolean
-  walletTransactions: { id: string; type: 'credit' | 'debit'; amount: number; description: string; date: string }[]
-  cancelledBookings: string[]
-  cancelBooking: (bookingId: string) => void
-}
-
+import { BookingContext, type BookingContextType } from './BookingContextValue'
 const defaultSearch: BookingSearch = {
   from: getStationByCode('NDLS') ?? null,
   to: getStationByCode('MMCT') ?? null,
@@ -45,6 +19,27 @@ const defaultSearch: BookingSearch = {
   travelClass: 'ALL',
   adults: 1,
   children: 0,
+}
+
+const STORAGE_KEYS = {
+  lastBooking: 'irctc-last-booking',
+  bookingHistory: 'irctc-booking-history',
+  walletBalance: 'irctc-wallet-balance',
+  walletTransactions: 'irctc-wallet-transactions',
+  cancelledBookings: 'irctc-cancelled-bookings',
+}
+
+function readStored<T>(key: string, fallback: T): T {
+  try {
+    const saved = localStorage.getItem(key)
+    return saved ? JSON.parse(saved) as T : fallback
+  } catch {
+    return fallback
+  }
+}
+
+function todayIso() {
+  return new Date().toISOString().split('T')[0]
 }
 
 const defaultExtras: BookingExtras = {
@@ -58,22 +53,21 @@ const defaultExtras: BookingExtras = {
   reservationUpto: '',
 }
 
-const BookingContext = createContext<BookingContextType | null>(null)
-
 export function BookingProvider({ children }: { children: ReactNode }) {
   const [search, setSearch] = useState<BookingSearch>(defaultSearch)
   const [selectedTrain, setSelectedTrain] = useState<SelectedTrain | null>(null)
   const [passengers, setPassengers] = useState<Passenger[]>([])
   const [bookingExtras, setBookingExtras] = useState<BookingExtras>(defaultExtras)
   const [seatAssignments, setSeatAssignments] = useState<SeatAssignment[]>([])
-  const [lastBooking, setLastBooking] = useState<Booking | null>(null)
-  const [walletBalance, setWalletBalance] = useState(2500)
-  const [walletTransactions, setWalletTransactions] = useState<BookingContextType['walletTransactions']>([
+  const [lastBooking, setLastBooking] = useState<Booking | null>(() => readStored(STORAGE_KEYS.lastBooking, null))
+  const [bookingHistory, setBookingHistory] = useState<Booking[]>(() => readStored(STORAGE_KEYS.bookingHistory, []))
+  const [walletBalance, setWalletBalance] = useState(() => readStored(STORAGE_KEYS.walletBalance, 2500))
+  const [walletTransactions, setWalletTransactions] = useState<BookingContextType['walletTransactions']>(() => readStored(STORAGE_KEYS.walletTransactions, [
     { id: 'wt1', type: 'credit', amount: 5000, description: 'Wallet top-up via UPI', date: '2025-05-01' },
     { id: 'wt2', type: 'debit', amount: 1850, description: 'Ticket booking - 12951', date: '2025-05-15' },
     { id: 'wt3', type: 'debit', amount: 650, description: 'Ticket booking - 12627', date: '2025-06-02' },
-  ])
-  const [cancelledBookings, setCancelledBookings] = useState<string[]>([])
+  ]))
+  const [cancelledBookings, setCancelledBookings] = useState<string[]>(() => readStored(STORAGE_KEYS.cancelledBookings, []))
 
   const setFrom = useCallback((station: Station) => {
     setSearch((prev) => ({ ...prev, from: station }))
@@ -133,9 +127,19 @@ export function BookingProvider({ children }: { children: ReactNode }) {
       passengers: passengersWithBerths,
       status: 'Confirmed',
       fare: selectedTrain!.selectedClass.fare * passengers.length + Math.round(insuranceFee),
-      bookedOn: new Date().toISOString().split('T')[0],
+      bookedOn: todayIso(),
+      paymentStatus: 'Paid',
+      coachPosition: `Coach ${1 + (passengers.length % 8)} from engine`,
+      platform: String(1 + (Number(selectedTrain!.train.number.slice(-1)) % 8)),
+      delayMinutes: Number(selectedTrain!.train.number.slice(-1)) % 3 === 0 ? 12 : 0,
     }
     setLastBooking(booking)
+    localStorage.setItem(STORAGE_KEYS.lastBooking, JSON.stringify(booking))
+    setBookingHistory((prev) => {
+      const next = [booking, ...prev.filter((b) => b.pnr !== booking.pnr)].slice(0, 20)
+      localStorage.setItem(STORAGE_KEYS.bookingHistory, JSON.stringify(next))
+      return next
+    })
     return booking
   }, [selectedTrain, search, passengers, seatAssignments, bookingExtras])
 
@@ -147,25 +151,45 @@ export function BookingProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const addWalletMoney = useCallback((amount: number) => {
-    setWalletBalance((prev) => prev + amount)
-    setWalletTransactions((prev) => [
-      { id: `wt-${Date.now()}`, type: 'credit', amount, description: 'Wallet top-up', date: new Date().toISOString().split('T')[0] },
-      ...prev,
-    ])
+    setWalletBalance((prev) => {
+      const next = prev + amount
+      localStorage.setItem(STORAGE_KEYS.walletBalance, JSON.stringify(next))
+      return next
+    })
+    setWalletTransactions((prev) => {
+      const next = [
+        { id: `wt-${Date.now()}`, type: 'credit' as const, amount, description: 'Wallet top-up', date: todayIso() },
+        ...prev,
+      ]
+      localStorage.setItem(STORAGE_KEYS.walletTransactions, JSON.stringify(next))
+      return next
+    })
   }, [])
 
   const deductWallet = useCallback((amount: number) => {
     if (walletBalance < amount) return false
-    setWalletBalance((prev) => prev - amount)
-    setWalletTransactions((prev) => [
-      { id: `wt-${Date.now()}`, type: 'debit', amount, description: 'Ticket payment', date: new Date().toISOString().split('T')[0] },
-      ...prev,
-    ])
+    setWalletBalance((prev) => {
+      const next = prev - amount
+      localStorage.setItem(STORAGE_KEYS.walletBalance, JSON.stringify(next))
+      return next
+    })
+    setWalletTransactions((prev) => {
+      const next = [
+        { id: `wt-${Date.now()}`, type: 'debit' as const, amount, description: 'Ticket payment', date: todayIso() },
+        ...prev,
+      ]
+      localStorage.setItem(STORAGE_KEYS.walletTransactions, JSON.stringify(next))
+      return next
+    })
     return true
   }, [walletBalance])
 
   const cancelBooking = useCallback((bookingId: string) => {
-    setCancelledBookings((prev) => [...prev, bookingId])
+    setCancelledBookings((prev) => {
+      const next = [...new Set([...prev, bookingId])]
+      localStorage.setItem(STORAGE_KEYS.cancelledBookings, JSON.stringify(next))
+      return next
+    })
   }, [])
 
   return (
@@ -187,6 +211,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
         seatAssignments,
         setSeatAssignments,
         lastBooking,
+        bookingHistory,
         confirmBooking,
         resetBooking,
         walletBalance,
@@ -200,10 +225,4 @@ export function BookingProvider({ children }: { children: ReactNode }) {
       {children}
     </BookingContext.Provider>
   )
-}
-
-export function useBooking() {
-  const ctx = useContext(BookingContext)
-  if (!ctx) throw new Error('useBooking must be used within BookingProvider')
-  return ctx
 }

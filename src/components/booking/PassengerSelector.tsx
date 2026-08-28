@@ -4,11 +4,11 @@ import { cn } from '../../utils/cn'
 
 interface PassengerSelectorProps {
   adults: number
-  children: number
-  onChange: (adults: number, children: number) => void
+  childrenCount: number
+  onChange: (adults: number, childrenCount: number) => void
 }
 
-export function PassengerSelector({ adults, children, onChange }: PassengerSelectorProps) {
+export function PassengerSelector({ adults, childrenCount, onChange }: PassengerSelectorProps) {
   const [isOpen, setIsOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -20,19 +20,19 @@ export function PassengerSelector({ adults, children, onChange }: PassengerSelec
     return () => document.removeEventListener('mousedown', handleClick)
   }, [])
 
-  const total = adults + children
+  const total = adults + childrenCount
   const label = total === 1 ? '1 Passenger' : `${total} Passengers`
 
   const updateAdults = (delta: number) => {
     const newAdults = adults + delta
     if (newAdults < 1) return
-    if (newAdults + children < 1) return
-    if (newAdults + children > 6) return
-    onChange(newAdults, children)
+    if (newAdults + childrenCount < 1) return
+    if (newAdults + childrenCount > 6) return
+    onChange(newAdults, childrenCount)
   }
 
   const updateChildren = (delta: number) => {
-    const newChildren = children + delta
+    const newChildren = childrenCount + delta
     if (newChildren < 0) return
     if (adults + newChildren < 1) return
     if (adults + newChildren > 6) return
@@ -83,12 +83,12 @@ export function PassengerSelector({ adults, children, onChange }: PassengerSelec
             <div className="flex items-center gap-3">
               <button
                 onClick={() => updateChildren(-1)}
-                disabled={children <= 0}
+                disabled={childrenCount <= 0}
                 className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <Minus className="w-4 h-4" />
               </button>
-              <span className="w-6 text-center font-semibold">{children}</span>
+              <span className="w-6 text-center font-semibold">{childrenCount}</span>
               <button
                 onClick={() => updateChildren(1)}
                 disabled={total >= 6}

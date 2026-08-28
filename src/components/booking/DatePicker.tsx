@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   format, startOfMonth, endOfMonth, eachDayOfInterval,
   isSameMonth, isSameDay, isBefore, startOfDay, addMonths, subMonths,
@@ -19,9 +19,6 @@ export function DatePicker({ isOpen, onClose, selectedDate, onSelect }: DatePick
   const [viewDate, setViewDate] = useState(selectedDate || new Date())
   const today = startOfDay(new Date())
 
-  useEffect(() => {
-    if (isOpen && selectedDate) setViewDate(selectedDate)
-  }, [isOpen, selectedDate])
 
   const monthStart = startOfMonth(viewDate)
   const monthEnd = endOfMonth(viewDate)

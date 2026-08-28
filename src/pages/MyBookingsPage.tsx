@@ -1,15 +1,16 @@
 import { useNavigate } from 'react-router-dom'
 import { Train, Calendar, MapPin } from 'lucide-react'
 import { mockBookings } from '../data/bookings'
-import { useBooking } from '../context/BookingContext'
+import { useBooking } from '../context/useBooking'
 import { formatDisplayDate } from '../utils/formatDate'
 
 export function MyBookingsPage() {
   const navigate = useNavigate()
-  const { lastBooking, cancelledBookings } = useBooking()
+  const { lastBooking, bookingHistory, cancelledBookings } = useBooking()
 
   const allBookings = [
     ...(lastBooking ? [lastBooking] : []),
+    ...bookingHistory,
     ...mockBookings.filter((b) => !cancelledBookings.includes(b.id)),
   ]
 

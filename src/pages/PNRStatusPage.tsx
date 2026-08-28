@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Search, Train, User, MapPin, Calendar } from 'lucide-react'
 import { getBookingByPNR } from '../data/bookings'
-import { useBooking } from '../context/BookingContext'
+import { useBooking } from '../context/useBooking'
 import { formatDisplayDate } from '../utils/formatDate'
 import { Button } from '../components/ui/Button'
 import type { Booking } from '../types'
@@ -10,16 +10,18 @@ export function PNRStatusPage() {
   const [pnr, setPnr] = useState('')
   const [result, setResult] = useState<Booking | null>(null)
   const [searched, setSearched] = useState(false)
-  const { lastBooking } = useBooking()
+  const { lastBooking, bookingHistory } = useBooking()
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     setSearched(true)
-    const booking = getBookingByPNR(pnr.trim())
-    if (!booking && lastBooking?.pnr === pnr.trim()) {
+    const cleanPnr = pnr.trim()
+    const booking = getBookingByPNR(cleanPnr)
+    const savedBooking = bookingHistory.find((b) => b.pnr === cleanPnr)
+    if (!booking && lastBooking?.pnr === cleanPnr) {
       setResult(lastBooking)
     } else {
-      setResult(booking || null)
+      setResult(savedBooking || booking || null)
     }
   }
 
@@ -80,6 +82,11 @@ export function PNRStatusPage() {
             <div className="flex items-center gap-3">
               <Calendar className="w-5 h-5 text-irctc-blue" />
               <div className="text-sm">{formatDisplayDate(result.date)} | Dep: {result.departure} | Arr: {result.arrival}</div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 border-t pt-3 text-sm">
+              <div className="rounded-xl bg-blue-50 p-3"><span className="block text-xs text-gray-500">Platform</span><b>{result.platform || 'TBA'}</b></div>
+              <div className="rounded-xl bg-cyan-50 p-3"><span className="block text-xs text-gray-500">Coach Position</span><b>{result.coachPosition || 'Chart pending'}</b></div>
+              <div className="rounded-xl bg-orange-50 p-3"><span className="block text-xs text-gray-500">Live Delay</span><b>{result.delayMinutes ? `${result.delayMinutes} min` : 'On time'}</b></div>
             </div>
             <div className="border-t pt-3">
               <h4 className="font-semibold text-sm mb-2 flex items-center gap-1"><User className="w-4 h-4" /> Passengers</h4>

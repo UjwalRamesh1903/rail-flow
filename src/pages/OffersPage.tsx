@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { Copy } from 'lucide-react'
 import { offers } from '../data/offers'
-import { useToast } from '../context/ToastContext'
+import { useToast } from '../context/useToast'
 
 export function OffersPage() {
   const navigate = useNavigate()

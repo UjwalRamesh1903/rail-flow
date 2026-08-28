@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { CheckCircle, Home } from 'lucide-react'
-import { useBooking } from '../context/BookingContext'
+import { useBooking } from '../context/useBooking'
 import { formatDisplayDate } from '../utils/formatDate'
 import { Button } from '../components/ui/Button'
 

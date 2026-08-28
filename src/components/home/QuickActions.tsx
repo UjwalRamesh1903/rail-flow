@@ -63,16 +63,16 @@ export function QuickActions() {
   const navigate = useNavigate()
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 lg:py-9">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {actions.map((action) => (
           <button
             key={action.title}
             onClick={() => navigate(action.route)}
-            className={`relative overflow-hidden rounded-2xl border ${action.borderColor} bg-gradient-to-br ${action.cardTint} p-4 text-left hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex items-center gap-4`}
+            className={`relative overflow-hidden rounded-2xl border ${action.borderColor} bg-gradient-to-br ${action.cardTint} p-4 text-left shadow-lg shadow-blue-950/5 hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 group flex items-center gap-4`}
           >
             <div
-              className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${action.iconGradient} flex items-center justify-center shrink-0 shadow-lg ${action.iconShadow} ring-2 ring-white/60 group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}
+              className={`w-14 h-14 rounded-[1.25rem] bg-gradient-to-br ${action.iconGradient} flex items-center justify-center shrink-0 shadow-lg ${action.iconShadow} ring-2 ring-white/60 group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}
             >
               <action.icon className="w-6 h-6 text-white drop-shadow-sm" strokeWidth={2.5} />
             </div>

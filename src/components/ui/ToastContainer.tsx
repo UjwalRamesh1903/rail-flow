@@ -1,5 +1,5 @@
 import { CheckCircle, XCircle, Info, X } from 'lucide-react'
-import { useToast } from '../../context/ToastContext'
+import { useToast } from '../../context/useToast'
 import { cn } from '../../utils/cn'
 
 export function ToastContainer() {

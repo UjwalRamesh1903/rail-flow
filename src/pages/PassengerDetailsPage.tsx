@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, User, Mail, Shield, MapPin } from 'lucide-react'
-import { useBooking } from '../context/BookingContext'
-import { useToast } from '../context/ToastContext'
+import { useBooking } from '../context/useBooking'
+import { useToast } from '../context/useToast'
 import { Button } from '../components/ui/Button'
 import type { Passenger } from '../types'
 

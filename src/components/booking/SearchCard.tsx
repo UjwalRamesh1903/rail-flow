@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MapPin, Calendar, Armchair, User, ArrowLeftRight, Search } from 'lucide-react'
-import { useBooking } from '../../context/BookingContext'
-import { useToast } from '../../context/ToastContext'
+import { useBooking } from '../../context/useBooking'
+import { useToast } from '../../context/useToast'
 import { StationSelector } from './StationSelector'
 import { DatePicker } from './DatePicker'
 import { ClassSelector } from './ClassSelector'
@@ -43,12 +43,13 @@ export function SearchCard({ id }: SearchCardProps) {
 
   return (
     <>
-      <div id={id} className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,82,204,0.25)] border border-white/80 ring-1 ring-gray-100">
+      <div id={id} className="relative overflow-hidden bg-white/90 backdrop-blur-xl rounded-[1.75rem] shadow-[0_28px_80px_-18px_rgba(11,92,255,0.35)] border border-white/90 ring-1 ring-blue-100/80">
+        <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-irctc-blue via-irctc-cyan to-irctc-orange" />
         <div className="flex flex-col lg:flex-row lg:items-stretch">
           {/* From */}
           <button
             onClick={() => setStationModal('from')}
-            className="flex-1 flex items-start gap-3 px-5 py-4 lg:py-5 hover:bg-gray-50/80 transition-colors text-left border-b lg:border-b-0 lg:border-r border-gray-100"
+            className="flex-1 flex items-start gap-3 px-5 py-4 lg:py-5 hover:bg-blue-50/70 transition-all duration-200 text-left border-b lg:border-b-0 lg:border-r border-gray-100"
           >
             <MapPin className="w-5 h-5 text-irctc-blue mt-0.5 shrink-0" />
             <div>
@@ -68,7 +69,7 @@ export function SearchCard({ id }: SearchCardProps) {
           <div className="hidden lg:flex items-center justify-center px-1 relative z-10 -mx-3">
             <button
               onClick={swapStations}
-              className="w-9 h-9 rounded-full border-2 border-gray-200 bg-white flex items-center justify-center hover:border-irctc-blue hover:bg-irctc-blue-light transition-all shadow-sm"
+              className="w-10 h-10 rounded-full border-2 border-blue-100 bg-white flex items-center justify-center hover:border-irctc-blue hover:bg-irctc-blue-light transition-all shadow-lg shadow-blue-500/15 hover:scale-105"
               aria-label="Swap stations"
             >
               <ArrowLeftRight className="w-4 h-4 text-irctc-blue" />
@@ -78,7 +79,7 @@ export function SearchCard({ id }: SearchCardProps) {
           {/* To */}
           <button
             onClick={() => setStationModal('to')}
-            className="flex-1 flex items-start gap-3 px-5 py-4 lg:py-5 hover:bg-gray-50/80 transition-colors text-left border-b lg:border-b-0 lg:border-r border-gray-100"
+            className="flex-1 flex items-start gap-3 px-5 py-4 lg:py-5 hover:bg-blue-50/70 transition-all duration-200 text-left border-b lg:border-b-0 lg:border-r border-gray-100"
           >
             <MapPin className="w-5 h-5 text-irctc-blue mt-0.5 shrink-0" />
             <div>
@@ -98,7 +99,7 @@ export function SearchCard({ id }: SearchCardProps) {
           <div className="lg:hidden flex justify-center -my-2 relative z-10">
             <button
               onClick={swapStations}
-              className="w-9 h-9 rounded-full border-2 border-gray-200 bg-white flex items-center justify-center hover:border-irctc-blue shadow-sm"
+              className="w-10 h-10 rounded-full border-2 border-blue-100 bg-white flex items-center justify-center hover:border-irctc-blue shadow-lg shadow-blue-500/15"
             >
               <ArrowLeftRight className="w-4 h-4 text-irctc-blue" />
             </button>
@@ -107,7 +108,7 @@ export function SearchCard({ id }: SearchCardProps) {
           {/* Date */}
           <button
             onClick={() => setDatePickerOpen(true)}
-            className="flex-1 flex items-start gap-3 px-5 py-4 lg:py-5 hover:bg-gray-50/80 transition-colors text-left border-b lg:border-b-0 lg:border-r border-gray-100"
+            className="flex-1 flex items-start gap-3 px-5 py-4 lg:py-5 hover:bg-blue-50/70 transition-all duration-200 text-left border-b lg:border-b-0 lg:border-r border-gray-100"
           >
             <Calendar className="w-5 h-5 text-irctc-blue mt-0.5 shrink-0" />
             <div>
@@ -137,7 +138,7 @@ export function SearchCard({ id }: SearchCardProps) {
               <div className="text-[11px] text-gray-500 font-medium uppercase tracking-wide mb-1">Passengers</div>
               <PassengerSelector
                 adults={search.adults}
-                children={search.children}
+                childrenCount={search.children}
                 onChange={setPassengers}
               />
             </div>
@@ -146,7 +147,7 @@ export function SearchCard({ id }: SearchCardProps) {
           {/* Search Button */}
           <button
             onClick={handleSearch}
-            className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#0052CC] to-[#0080FF] hover:from-[#0047b3] hover:to-[#0066cc] text-white font-semibold px-6 py-5 lg:py-0 transition-all active:scale-[0.98] min-w-[160px] rounded-b-2xl lg:rounded-b-none lg:rounded-r-2xl shadow-lg shadow-blue-500/30"
+            className="flex items-center justify-center gap-2 relative overflow-hidden shine-on-hover bg-gradient-to-r from-irctc-blue via-[#004DFF] to-irctc-cyan hover:from-irctc-blue-dark hover:via-irctc-blue hover:to-[#00D4FF] text-white font-semibold px-6 py-5 lg:py-0 transition-all active:scale-[0.98] min-w-[160px] rounded-b-2xl lg:rounded-b-none lg:rounded-r-2xl shadow-lg shadow-blue-500/30"
           >
             <Search className="w-5 h-5" />
             <span className="text-sm">Search Trains</span>

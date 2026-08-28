@@ -9,8 +9,8 @@ const items = [
 
 export function TrustBar() {
   return (
-    <section className="bg-irctc-blue-light/60 border-y border-blue-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="rounded-2xl border border-blue-200/80 bg-white/75 shadow-lg shadow-blue-950/5 backdrop-blur-xl overflow-hidden">
         <div className="grid grid-cols-2 lg:grid-cols-4">
           {items.map((item, i) => (
             <div
@@ -22,7 +22,7 @@ export function TrustBar() {
               }`}
             >
               <item.icon className="w-5 h-5 text-irctc-blue shrink-0" />
-              <span className="text-sm font-semibold text-gray-700">{item.label}</span>
+              <span className="text-sm font-semibold text-irctc-navy">{item.label}</span>
             </div>
           ))}
         </div>

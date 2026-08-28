@@ -3,6 +3,7 @@ import { QuickActions } from '../components/home/QuickActions'
 import { TrustBar } from '../components/home/TrustBar'
 import { PopularOffers } from '../components/home/PopularOffers'
 import { HelpSection } from '../components/home/HelpSection'
+import { IndiaNeedsFeatures } from '../components/home/IndiaNeedsFeatures'
 
 export function HomePage() {
   return (
@@ -10,6 +11,7 @@ export function HomePage() {
       <HeroSection />
       <QuickActions />
       <TrustBar />
+      <IndiaNeedsFeatures />
       <PopularOffers />
       <HelpSection />
     </>

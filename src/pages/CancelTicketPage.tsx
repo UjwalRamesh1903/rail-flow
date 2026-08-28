@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { AlertTriangle, CheckCircle } from 'lucide-react'
 import { mockBookings } from '../data/bookings'
-import { useBooking } from '../context/BookingContext'
-import { useToast } from '../context/ToastContext'
+import { useBooking } from '../context/useBooking'
+import { useToast } from '../context/useToast'
 import { formatDisplayDate } from '../utils/formatDate'
 import { Button } from '../components/ui/Button'
 

@@ -70,6 +70,10 @@ export interface Booking {
   passengers: Passenger[]
   status: 'Confirmed' | 'RAC' | 'Waitlist' | 'Cancelled'
   fare: number
+  paymentStatus?: 'Paid' | 'Pending' | 'Failed' | 'Refund Initiated'
+  coachPosition?: string
+  platform?: string
+  delayMinutes?: number
   bookedOn: string
 }
 

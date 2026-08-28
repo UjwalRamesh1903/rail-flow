@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight, Clock, Filter, X } from 'lucide-react'
-import { useBooking } from '../context/BookingContext'
+import { useBooking } from '../context/useBooking'
 import { getTrainsForRoute } from '../data/trains'
 import { formatJourneyDate } from '../utils/formatDate'
 import { cn } from '../utils/cn'

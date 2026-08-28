@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { CheckCircle } from 'lucide-react'
-import { useToast } from '../context/ToastContext'
+import { useToast } from '../context/useToast'
 import { Button } from '../components/ui/Button'
 
 export function FeedbackPage() {

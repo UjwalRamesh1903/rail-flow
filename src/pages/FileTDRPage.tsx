@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { CheckCircle } from 'lucide-react'
 import { mockBookings } from '../data/bookings'
 import { tdrReasons } from '../data/tdr-reasons'
-import { useBooking } from '../context/BookingContext'
-import { useToast } from '../context/ToastContext'
+import { useBooking } from '../context/useBooking'
+import { useToast } from '../context/useToast'
 import { formatDisplayDate } from '../utils/formatDate'
 import { Button } from '../components/ui/Button'
 
@@ -13,7 +13,7 @@ export function FileTDRPage() {
   const [bookingId, setBookingId] = useState('')
   const [reasonId, setReasonId] = useState('')
   const [description, setDescription] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const [tdrReference, setTdrReference] = useState('')
 
   const bookings = [
     ...(lastBooking ? [lastBooking] : []),
@@ -26,18 +26,18 @@ export function FileTDRPage() {
       showToast('Please select booking and reason', 'error')
       return
     }
-    setSubmitted(true)
+    setTdrReference(`TDR${Date.now().toString().slice(-8)}`)
     showToast('TDR filed successfully!', 'success')
   }
 
-  if (submitted) {
+  if (tdrReference) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-12 text-center">
         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-gray-900 mb-2">TDR Filed Successfully</h1>
         <p className="text-gray-500 mb-4">Your TDR has been submitted. Refund will be processed after verification.</p>
-        <p className="text-sm text-gray-400">TDR Reference: TDR{Date.now().toString().slice(-8)}</p>
-        <Button className="mt-6" onClick={() => { setSubmitted(false); setBookingId(''); setReasonId(''); setDescription('') }}>
+        <p className="text-sm text-gray-400">TDR Reference: {tdrReference}</p>
+        <Button className="mt-6" onClick={() => { setTdrReference(''); setBookingId(''); setReasonId(''); setDescription('') }}>
           File Another TDR
         </Button>
       </div>

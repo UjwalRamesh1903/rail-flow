@@ -8,8 +8,8 @@ import {
 import { IRCTCLogo } from '../ui/IRCTCLogo'
 import { Modal } from '../ui/Modal'
 import { Button } from '../ui/Button'
-import { useAuth } from '../../context/AuthContext'
-import { useToast } from '../../context/ToastContext'
+import { useAuth } from '../../context/useAuth'
+import { useToast } from '../../context/useToast'
 import { cn } from '../../utils/cn'
 
 const navItems = [
@@ -57,8 +57,6 @@ export function Header() {
     return () => document.removeEventListener('mousedown', handleClick)
   }, [])
 
-  useEffect(() => { setMobileOpen(false) }, [location.pathname])
-
   const handleAuth = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const fd = new FormData(e.currentTarget)
@@ -100,6 +98,7 @@ export function Header() {
                 <Link
                   key={item.label}
                   to={item.path}
+                  onClick={() => setMobileOpen(false)}
                   className={cn(
                     'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
                     isActive(item.path)
@@ -207,6 +206,7 @@ export function Header() {
                 <Link
                   key={item.label}
                   to={item.path}
+                  onClick={() => setMobileOpen(false)}
                   className={cn(
                     'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium',
                     isActive(item.path) ? 'text-irctc-blue bg-irctc-blue-light/50' : 'text-gray-600'
@@ -220,7 +220,7 @@ export function Header() {
                 {moreItems.map((item) => (
                   <button
                     key={item.label}
-                    onClick={() => navigate(item.path)}
+                    onClick={() => { setMobileOpen(false); navigate(item.path) }}
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600"
                   >
                     <item.icon className="w-4 h-4" />
