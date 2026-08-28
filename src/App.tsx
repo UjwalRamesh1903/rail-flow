@@ -26,7 +26,7 @@ import { SeatSelectionPage } from './pages/SeatSelectionPage'
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <ToastProvider>
         <AuthProvider>
           <BookingProvider>

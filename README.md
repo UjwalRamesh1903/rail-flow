@@ -1,96 +1,43 @@
-# IRCTC Train Booking - Frontend Prototype
+# IRCTC Train Booking — Frontend Prototype
 
-A fully functional frontend prototype of the IRCTC (Indian Railway Catering and Tourism Corporation) train booking website, built with React, TypeScript, and Tailwind CSS.
+A fully functional IRCTC-style train booking website built with React, TypeScript, and Tailwind CSS.
 
-## Features
+## Live demo (GitHub Pages)
 
-- **Homepage** matching the IRCTC reference design with hero section, search card, quick actions, trust bar, offers, and help section
-- **Station Selector** with 300+ Indian railway stations, searchable by name, code, city, and aliases
-- **From/To Swap** functionality
-- **Date Picker** with past date prevention
-- **Class & Passenger Selectors** with full dropdown interactions
-- **Train Search & Results** with filters (departure time, train type, class, availability)
-- **Complete Booking Flow**: Search → Select Train → Passenger Details → Review → Payment → Confirmation
-- **PNR Status** enquiry with mock results
-- **My Bookings**, **Cancel Ticket**, **E-Wallet**, **File TDR**
-- **Offers** page with coupon copy functionality
-- **Travel Info**, **Station Info**, **FAQs**, **Contact**, **Feedback**
-- **Login/Signup** modal with mock authentication
-- **Responsive design** for desktop, tablet, and mobile
+After deployment completes: **https://ujwalramesh1903.github.io/rail-flow/**
 
-## Tech Stack
+> GitHub shows **source code** on the repo page. The **running website** is at the link above (not on the repo file list).
 
-- React 19 + TypeScript
-- Tailwind CSS 4
-- React Router 7
-- Lucide React (icons)
-- date-fns (date formatting)
-- Vite (build tool)
-
-## Getting Started
+## Run locally
 
 ```bash
-# Install dependencies
+git clone https://github.com/UjwalRamesh1903/rail-flow.git
+cd rail-flow
 npm install
-
-# Start development server
 npm run dev
+```
 
-# Build for production
+Open **http://localhost:43123**
+
+## What's included
+
+- IRCTC homepage with Vande Bharat hero, search card, quick actions, offers
+- 300+ station search with swap, date picker, class & passenger selectors
+- Train results with filters
+- Passenger details, **NTES-style seat selection**, review, payment, confirmation
+- PNR status, bookings, e-wallet, TDR, FAQs, and more
+
+## Build for production
+
+```bash
 npm run build
-
-# Preview production build
 npm run preview
 ```
 
-The dev server runs at `http://localhost:43123`.
+## Tech stack
 
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── booking/       # Search card, station selector, date picker, etc.
-│   ├── home/          # Hero, quick actions, offers, help sections
-│   ├── layout/        # Header, layout wrapper
-│   └── ui/            # Reusable UI components (Modal, Button, Toast)
-├── context/           # React contexts (Auth, Booking, Toast)
-├── data/              # Mock data (stations, trains, bookings, offers, FAQs)
-├── pages/             # Route pages
-├── types/             # TypeScript type definitions
-└── utils/             # Utility functions
-```
-
-## Routes
-
-| Route | Description |
-|-------|-------------|
-| `/` | Homepage |
-| `/book-ticket` | Book ticket page |
-| `/trains` | Train search results |
-| `/passenger-details` | Enter passenger info |
-| `/review` | Review booking |
-| `/payment` | Payment page |
-| `/confirmation` | Booking confirmation |
-| `/pnr-status` | PNR enquiry |
-| `/my-bookings` | View bookings |
-| `/cancel-ticket` | Cancel ticket |
-| `/e-wallet` | E-wallet management |
-| `/file-tdr` | File TDR |
-| `/offers` | All offers |
-| `/travel-info` | Travel information |
-| `/station-info` | Station search |
-| `/faq` | FAQs |
-| `/contact` | Contact us |
-| `/feedback` | Feedback form |
-| `/login` | Login (redirects to home with modal) |
+React 19 · TypeScript · Tailwind CSS 4 · React Router 7 · Vite
 
 ## Note
 
-This is a **frontend prototype** for demonstration purposes. It uses mock data and does not connect to actual IRCTC booking systems or process real payments.
-
-## Sample PNR Numbers
-
-- `4521879630` - Mumbai Rajdhani (Confirmed)
-- `8745213690` - Sealdah Duronto (Confirmed)
-- `9632587410` - Karnataka Express (RAC)
+This is a **frontend prototype** with mock data — not connected to live IRCTC.
