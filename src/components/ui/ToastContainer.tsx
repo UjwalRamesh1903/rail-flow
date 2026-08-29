@@ -1,19 +1,20 @@
 import { CheckCircle, XCircle, Info, X } from 'lucide-react'
-import { useToast } from '../../context/ToastContext'
+import { useToast, useToasts } from '../../context/ToastContext'
 import { cn } from '../../utils/cn'
 
 export function ToastContainer() {
-  const { toasts, removeToast } = useToast()
+  const toasts = useToasts()
+  const { removeToast } = useToast()
 
   if (toasts.length === 0) return null
 
   return (
-    <div className="fixed top-4 right-4 z-[100] flex flex-col gap-2">
+    <div className="fixed top-4 right-4 z-[100] flex flex-col gap-2 pointer-events-none">
       {toasts.map((toast) => (
         <div
           key={toast.id}
           className={cn(
-            'flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg animate-slide-down min-w-[280px] max-w-[400px]',
+            'flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg min-w-[280px] max-w-[400px] pointer-events-auto',
             toast.type === 'success' && 'bg-green-50 border border-green-200 text-green-800',
             toast.type === 'error' && 'bg-red-50 border border-red-200 text-red-800',
             toast.type === 'info' && 'bg-blue-50 border border-blue-200 text-blue-800',

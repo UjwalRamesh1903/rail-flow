@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from 'react'
 import type {
   BookingSearch,
   Station,
@@ -168,35 +168,43 @@ export function BookingProvider({ children }: { children: ReactNode }) {
     setCancelledBookings((prev) => [...prev, bookingId])
   }, [])
 
+  const value = useMemo(
+    () => ({
+      search,
+      setFrom,
+      setTo,
+      swapStations,
+      setDate,
+      setTravelClass,
+      setPassengers: setPassengersCount,
+      selectedTrain,
+      setSelectedTrain,
+      passengers,
+      setPassengerDetails,
+      bookingExtras,
+      setBookingExtras,
+      seatAssignments,
+      setSeatAssignments,
+      lastBooking,
+      confirmBooking,
+      resetBooking,
+      walletBalance,
+      addWalletMoney,
+      deductWallet,
+      walletTransactions,
+      cancelledBookings,
+      cancelBooking,
+    }),
+    [
+      search, setFrom, setTo, swapStations, setDate, setTravelClass, setPassengersCount,
+      selectedTrain, passengers, setPassengerDetails, bookingExtras, seatAssignments,
+      lastBooking, confirmBooking, resetBooking, walletBalance, addWalletMoney,
+      deductWallet, walletTransactions, cancelledBookings, cancelBooking,
+    ]
+  )
+
   return (
-    <BookingContext.Provider
-      value={{
-        search,
-        setFrom,
-        setTo,
-        swapStations,
-        setDate,
-        setTravelClass,
-        setPassengers: setPassengersCount,
-        selectedTrain,
-        setSelectedTrain,
-        passengers,
-        setPassengerDetails,
-        bookingExtras,
-        setBookingExtras,
-        seatAssignments,
-        setSeatAssignments,
-        lastBooking,
-        confirmBooking,
-        resetBooking,
-        walletBalance,
-        addWalletMoney,
-        deductWallet,
-        walletTransactions,
-        cancelledBookings,
-        cancelBooking,
-      }}
-    >
+    <BookingContext.Provider value={value}>
       {children}
     </BookingContext.Provider>
   )

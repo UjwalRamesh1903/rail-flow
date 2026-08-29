@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect, useMemo, type ReactNode } from 'react'
 import { translations, LANGUAGES, type LanguageCode, type TranslationKey } from '../i18n/translations'
 
 interface LanguageContextType {
@@ -34,8 +34,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const languageLabel = LANGUAGES.find((l) => l.code === language)?.label ?? 'English'
 
+  const value = useMemo(
+    () => ({ language, setLanguage, t, languageLabel }),
+    [language, setLanguage, t, languageLabel]
+  )
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t, languageLabel }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   )

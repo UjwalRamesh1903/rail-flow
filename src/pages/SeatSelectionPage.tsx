@@ -15,10 +15,10 @@ export function SeatSelectionPage() {
   const { showToast } = useToast()
 
   const classCode = selectedTrain?.selectedClass.code || '3A'
-  const composition = getTrainComposition(selectedTrain?.train.type || 'Express')
+  const trainType = selectedTrain?.train.type || 'Express'
   const coaches = useMemo(
-    () => buildCoachesForTrain(classCode, composition.coaches),
-    [classCode, composition]
+    () => buildCoachesForTrain(classCode, getTrainComposition(trainType).coaches),
+    [classCode, trainType]
   )
 
   const [activeCoachId, setActiveCoachId] = useState(coaches[0]?.id || 'B1')

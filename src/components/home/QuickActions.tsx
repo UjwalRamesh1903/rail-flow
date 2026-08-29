@@ -70,10 +70,10 @@ export function QuickActions() {
           <button
             key={action.titleKey}
             onClick={() => navigate(action.route)}
-            className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#1a2332] p-4 text-left hover:border-white/20 hover:bg-[#243044] hover:-translate-y-1 hover:shadow-xl hover:shadow-black/30 transition-all duration-300 group flex items-center gap-4"
+            className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#1a2332] p-4 text-left hover:border-white/20 hover:bg-[#243044] transition-colors duration-150 group flex items-center gap-4"
           >
             <div
-              className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${action.iconGradient} flex items-center justify-center shrink-0 shadow-lg ${action.iconShadow} ring-2 ring-white/20 group-hover:scale-110 transition-all duration-300`}
+              className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${action.iconGradient} flex items-center justify-center shrink-0 shadow-lg ${action.iconShadow} ring-2 ring-white/20`}
             >
               <action.icon className="w-6 h-6 text-white drop-shadow-sm" strokeWidth={2.5} />
             </div>

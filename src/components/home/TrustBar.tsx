@@ -13,7 +13,7 @@ export function TrustBar() {
   const { t } = useLanguage()
 
   return (
-    <section className="bg-[#111827]/80 border-y border-white/10 backdrop-blur-sm">
+    <section className="bg-[#111827] border-y border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4">
           {items.map((item, i) => (

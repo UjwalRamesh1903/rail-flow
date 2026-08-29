@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo, memo } from 'react'
 import { Search, MapPin } from 'lucide-react'
 import { Modal } from '../ui/Modal'
 import { searchStations } from '../../utils/searchStations'
+import { useDebounce } from '../../hooks/useDebounce'
 import type { Station } from '../../types'
 
 interface StationSelectorProps {
@@ -12,22 +13,52 @@ interface StationSelectorProps {
   selectedStation?: Station | null
 }
 
+const StationRow = memo(function StationRow({
+  station,
+  isSelected,
+  onSelect,
+}: {
+  station: Station
+  isSelected: boolean
+  onSelect: (station: Station) => void
+}) {
+  return (
+    <button
+      onClick={() => onSelect(station)}
+      className={`w-full flex items-center gap-3 px-3 py-3 hover:bg-irctc-blue-light/30 transition-colors text-left rounded-lg ${
+        isSelected ? 'bg-irctc-blue-light/40' : ''
+      }`}
+    >
+      <div className="w-8 h-8 rounded-lg bg-irctc-blue-light/50 flex items-center justify-center shrink-0">
+        <MapPin className="w-4 h-4 text-irctc-blue" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="font-semibold text-gray-100 text-sm">{station.name}</div>
+        <div className="text-xs text-gray-400">{station.city}, {station.state}</div>
+      </div>
+      <span className="px-2.5 py-1 bg-irctc-blue-light text-irctc-blue text-xs font-bold rounded-md shrink-0">
+        {station.code}
+      </span>
+    </button>
+  )
+})
+
 export function StationSelector({ isOpen, onClose, onSelect, title, selectedStation }: StationSelectorProps) {
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState<Station[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
+  const debouncedQuery = useDebounce(query, 150)
+
+  const results = useMemo(
+    () => searchStations(debouncedQuery, 50),
+    [debouncedQuery]
+  )
 
   useEffect(() => {
     if (isOpen) {
       setQuery('')
-      setResults(searchStations('', 50))
-      setTimeout(() => inputRef.current?.focus(), 100)
+      requestAnimationFrame(() => inputRef.current?.focus())
     }
   }, [isOpen])
-
-  useEffect(() => {
-    setResults(searchStations(query, 50))
-  }, [query])
 
   const handleSelect = (station: Station) => {
     onSelect(station)
@@ -48,7 +79,7 @@ export function StationSelector({ isOpen, onClose, onSelect, title, selectedStat
             className="surface-input w-full pl-10 pr-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
           />
         </div>
-        <div className="max-h-[400px] overflow-y-auto">
+        <div className="max-h-[400px] overflow-y-auto overscroll-contain">
           {results.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <MapPin className="w-10 h-10 mx-auto mb-2 text-gray-300" />
@@ -57,24 +88,12 @@ export function StationSelector({ isOpen, onClose, onSelect, title, selectedStat
           ) : (
             <div className="divide-y divide-white/10">
               {results.map((station) => (
-                <button
-                  key={`${station.code}-${station.name}`}
-                  onClick={() => handleSelect(station)}
-                  className={`w-full flex items-center gap-3 px-3 py-3 hover:bg-irctc-blue-light/30 transition-colors text-left rounded-lg ${
-                    selectedStation?.code === station.code ? 'bg-irctc-blue-light/40' : ''
-                  }`}
-                >
-                  <div className="w-8 h-8 rounded-lg bg-irctc-blue-light/50 flex items-center justify-center shrink-0">
-                    <MapPin className="w-4 h-4 text-irctc-blue" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-gray-100 text-sm">{station.name}</div>
-                    <div className="text-xs text-gray-400">{station.city}, {station.state}</div>
-                  </div>
-                  <span className="px-2.5 py-1 bg-irctc-blue-light text-irctc-blue text-xs font-bold rounded-md shrink-0">
-                    {station.code}
-                  </span>
-                </button>
+                <StationRow
+                  key={station.code}
+                  station={station}
+                  isSelected={selectedStation?.code === station.code}
+                  onSelect={handleSelect}
+                />
               ))}
             </div>
           )}

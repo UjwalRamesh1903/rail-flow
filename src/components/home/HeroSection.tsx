@@ -1,7 +1,8 @@
 import { SearchCard } from '../booking/SearchCard'
 import { useLanguage } from '../../context/LanguageContext'
 
-const HERO_IMAGE = `${import.meta.env.BASE_URL}images/hero-trains.jpg`
+const HERO_WEBP = `${import.meta.env.BASE_URL}images/hero-trains.webp`
+const HERO_JPG = `${import.meta.env.BASE_URL}images/hero-trains-opt.jpg`
 
 export function HeroSection() {
   const { t } = useLanguage()
@@ -9,11 +10,18 @@ export function HeroSection() {
   return (
     <section className="relative overflow-hidden min-h-[480px] lg:min-h-[540px]">
       <div className="absolute inset-0">
-        <img
-          src={HERO_IMAGE}
-          alt="Indian Railways trains at sunset"
-          className="w-full h-full object-cover object-center"
-        />
+        <picture>
+          <source srcSet={HERO_WEBP} type="image/webp" />
+          <img
+            src={HERO_JPG}
+            alt="Indian Railways trains at sunset"
+            className="w-full h-full object-cover object-center"
+            fetchPriority="high"
+            decoding="async"
+            width={1400}
+            height={933}
+          />
+        </picture>
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0e17] via-[#0a0e17]/85 to-[#0a0e17]/30" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e17] via-[#0a0e17]/50 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0e17]/70 via-transparent to-transparent" />

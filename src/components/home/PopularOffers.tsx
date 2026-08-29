@@ -41,13 +41,13 @@ export function PopularOffers() {
           <div
             key={offer.id}
             onClick={() => navigate('/offers')}
-            className="bg-[#1a2332] rounded-2xl border border-white/10 overflow-hidden hover:border-white/20 hover:shadow-xl hover:shadow-black/30 transition-all cursor-pointer group"
+            className="bg-[#1a2332] rounded-2xl border border-white/10 overflow-hidden hover:border-white/20 transition-colors cursor-pointer group"
           >
             <div className="h-36 overflow-hidden">
               <img
                 src={offer.image}
                 alt={offer.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90"
+                className="w-full h-full object-cover opacity-90"
               />
             </div>
             <div className="p-4">

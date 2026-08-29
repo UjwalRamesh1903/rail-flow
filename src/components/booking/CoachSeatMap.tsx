@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, memo } from 'react'
 import type { Berth, Coach } from '../../data/ntesCoachData'
 import { formatBerthLabel, groupBerthsBySection } from '../../utils/coachLayout'
 import { cn } from '../../utils/cn'
@@ -171,7 +171,7 @@ function BayLayout({
   )
 }
 
-function BerthButton({
+const BerthButton = memo(function BerthButton({
   berth,
   selectedBy,
   activePassenger: _activePassenger,
@@ -194,7 +194,7 @@ function BerthButton({
       disabled={isBooked}
       onClick={onSelect}
       className={cn(
-        'rounded-lg border text-center transition-all w-full',
+        'rounded-lg border text-center transition-colors w-full',
         compact ? 'px-1 py-3 min-h-[72px]' : 'px-2 py-3 min-h-[68px]',
         isBooked && 'border-red-900/50 bg-red-950/40 text-red-400/60 cursor-not-allowed opacity-60',
         isLadies && !isSelected && 'border-pink-500/40 bg-pink-950/30 text-pink-300',
@@ -211,4 +211,4 @@ function BerthButton({
       )}
     </button>
   )
-}
+})

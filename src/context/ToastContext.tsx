@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from 'react'
 
 interface Toast {
   id: string
@@ -6,21 +6,21 @@ interface Toast {
   type: 'success' | 'error' | 'info'
 }
 
-interface ToastContextType {
-  toasts: Toast[]
+interface ToastDispatchContextType {
   showToast: (message: string, type?: Toast['type']) => void
   removeToast: (id: string) => void
 }
 
-const ToastContext = createContext<ToastContextType | null>(null)
+const ToastStateContext = createContext<Toast[]>([])
+const ToastDispatchContext = createContext<ToastDispatchContextType | null>(null)
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([])
 
   const showToast = useCallback((message: string, type: Toast['type'] = 'success') => {
-    const id = Date.now().toString()
+    const id = `${Date.now()}-${Math.random()}`
     setToasts((prev) => [...prev, { id, message, type }])
-    setTimeout(() => {
+    window.setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id))
     }, 3500)
   }, [])
@@ -29,15 +29,23 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     setToasts((prev) => prev.filter((t) => t.id !== id))
   }, [])
 
+  const dispatch = useMemo(() => ({ showToast, removeToast }), [showToast, removeToast])
+
   return (
-    <ToastContext.Provider value={{ toasts, showToast, removeToast }}>
-      {children}
-    </ToastContext.Provider>
+    <ToastDispatchContext.Provider value={dispatch}>
+      <ToastStateContext.Provider value={toasts}>
+        {children}
+      </ToastStateContext.Provider>
+    </ToastDispatchContext.Provider>
   )
 }
 
 export function useToast() {
-  const ctx = useContext(ToastContext)
+  const ctx = useContext(ToastDispatchContext)
   if (!ctx) throw new Error('useToast must be used within ToastProvider')
   return ctx
+}
+
+export function useToasts() {
+  return useContext(ToastStateContext)
 }

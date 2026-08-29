@@ -87,17 +87,27 @@ export function generateChairLayout(coachId: string, count = 78): Berth[] {
   }))
 }
 
+const berthLayoutCache = new Map<string, Berth[]>()
+
 export function generateCoachBerths(coachId: string, classCode: string): Berth[] {
+  const key = `${coachId}:${classCode}`
+  const cached = berthLayoutCache.get(key)
+  if (cached) return cached
+
+  let berths: Berth[]
   switch (classCode) {
-    case '3A': return generate3ACLayout(coachId)
-    case '2A': return generate2ALayout(coachId)
-    case 'SL': return generateSleeperLayout(coachId)
+    case '3A': berths = generate3ACLayout(coachId); break
+    case '2A': berths = generate2ALayout(coachId); break
+    case 'SL': berths = generateSleeperLayout(coachId); break
     case 'CC':
     case 'EC':
-    case '2S': return generateChairLayout(coachId, classCode === 'EC' ? 56 : 78)
-    case '1A': return generate2ALayout(coachId).slice(0, 24)
-    default: return generate3ACLayout(coachId)
+    case '2S': berths = generateChairLayout(coachId, classCode === 'EC' ? 56 : 78); break
+    case '1A': berths = generate2ALayout(coachId).slice(0, 24); break
+    default: berths = generate3ACLayout(coachId)
   }
+
+  berthLayoutCache.set(key, berths)
+  return berths
 }
 
 export function formatBerthLabel(type: BerthType): string {

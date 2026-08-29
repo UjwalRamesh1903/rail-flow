@@ -5,7 +5,10 @@ export function IRCTCLogo({ className = '' }: { className?: string }) {
     <img
       src={logoSrc}
       alt="IRCTC - Indian Railway Catering and Tourism Corporation"
-      className={`h-12 w-auto object-contain ${className}`}
+      className={`h-11 w-auto object-contain ${className}`}
+      width={120}
+      height={44}
+      decoding="async"
     />
   )
 }
