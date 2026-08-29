@@ -11,7 +11,7 @@ export function Button({ variant = 'primary', size = 'md', className, children, 
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-irctc-blue/30 disabled:opacity-50 disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center font-semibold rounded-xl transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-irctc-blue/30 disabled:opacity-50 disabled:cursor-not-allowed',
         variant === 'primary' && 'bg-irctc-blue text-white hover:bg-irctc-blue-dark active:scale-[0.98]',
         variant === 'secondary' && 'bg-irctc-blue-light/40 text-irctc-blue hover:bg-irctc-blue-light/60',
         variant === 'outline' && 'border-2 border-irctc-blue text-irctc-blue hover:bg-irctc-blue-light/30',
