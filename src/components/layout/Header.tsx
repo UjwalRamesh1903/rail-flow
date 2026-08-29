@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import {
-  Home, Ticket, CalendarDays, CircleDot, Train, ShieldCheck,
+  Home, CalendarDays, CircleDot, Train, ShieldCheck,
   ChevronDown, Globe, User, Menu, X, Utensils, Hotel, Package,
   Map, Info, HelpCircle,
 } from 'lucide-react'
@@ -10,40 +10,40 @@ import { Modal } from '../ui/Modal'
 import { Button } from '../ui/Button'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
+import { useLanguage } from '../../context/LanguageContext'
+import { LANGUAGES, translations } from '../../i18n/translations'
+import type { TranslationKey } from '../../i18n/translations'
 import { cn } from '../../utils/cn'
 
-const navItems = [
-  { label: 'Home', icon: Home, path: '/' },
-  { label: 'Book Ticket', icon: Ticket, path: '/book-ticket' },
-  { label: 'My Bookings', icon: CalendarDays, path: '/my-bookings' },
-  { label: 'PNR Status', icon: CircleDot, path: '/pnr-status' },
-  { label: 'Trains', icon: Train, path: '/trains' },
-  { label: 'Travel Info', icon: ShieldCheck, path: '/travel-info' },
+const navItems: { key: TranslationKey; icon: typeof Home; path: string }[] = [
+  { key: 'nav.home', icon: Home, path: '/' },
+  { key: 'nav.myBookings', icon: CalendarDays, path: '/my-bookings' },
+  { key: 'nav.pnrStatus', icon: CircleDot, path: '/pnr-status' },
+  { key: 'nav.trains', icon: Train, path: '/trains' },
+  { key: 'nav.travelInfo', icon: ShieldCheck, path: '/travel-info' },
 ]
 
-const moreItems = [
-  { label: 'Tour Packages', icon: Package, path: '/offers' },
-  { label: 'Retiring Rooms', icon: Hotel, path: '/offers' },
-  { label: 'E-Catering', icon: Utensils, path: '/travel-info' },
-  { label: 'Station Info', icon: Map, path: '/station-info' },
-  { label: 'FAQs', icon: HelpCircle, path: '/faq' },
-  { label: 'Contact Us', icon: Info, path: '/contact' },
+const moreItems: { key: TranslationKey; icon: typeof Package; path: string }[] = [
+  { key: 'nav.tourPackages', icon: Package, path: '/offers' },
+  { key: 'nav.retiringRooms', icon: Hotel, path: '/offers' },
+  { key: 'nav.eCatering', icon: Utensils, path: '/travel-info' },
+  { key: 'nav.stationInfo', icon: Map, path: '/station-info' },
+  { key: 'nav.faqs', icon: HelpCircle, path: '/faq' },
+  { key: 'nav.contactUs', icon: Info, path: '/contact' },
 ]
-
-const languages = ['English', 'हिन्दी', 'தமிழ்', 'বাংলা', 'मराठी', 'ગુજરાતી']
 
 export function Header() {
   const navigate = useNavigate()
   const location = useLocation()
   const { user, isAuthenticated, login, signup, logout } = useAuth()
   const { showToast } = useToast()
+  const { t, language, setLanguage, languageLabel } = useLanguage()
 
   const [mobileOpen, setMobileOpen] = useState(false)
   const [moreOpen, setMoreOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [authOpen, setAuthOpen] = useState(false)
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
-  const [selectedLang, setSelectedLang] = useState('English')
 
   const moreRef = useRef<HTMLDivElement>(null)
   const langRef = useRef<HTMLDivElement>(null)
@@ -65,17 +65,17 @@ export function Header() {
     if (authMode === 'login') {
       const email = fd.get('email') as string
       const password = fd.get('password') as string
-      if (!email || !password) { showToast('Please fill all fields', 'error'); return }
+      if (!email || !password) { showToast(t('auth.fillAll'), 'error'); return }
       login(email, password)
-      showToast('Logged in successfully!', 'success')
+      showToast(t('auth.loginSuccess'), 'success')
     } else {
       const name = fd.get('name') as string
       const email = fd.get('email') as string
       const phone = fd.get('phone') as string
       const password = fd.get('password') as string
-      if (!name || !email || !phone || !password) { showToast('Please fill all fields', 'error'); return }
+      if (!name || !email || !phone || !password) { showToast(t('auth.fillAll'), 'error'); return }
       signup(name, email, phone, password)
-      showToast('Account created successfully!', 'success')
+      showToast(t('auth.signupSuccess'), 'success')
     }
     setAuthOpen(false)
   }
@@ -94,11 +94,10 @@ export function Header() {
               <IRCTCLogo />
             </Link>
 
-            {/* Desktop Nav */}
             <nav className="hidden xl:flex items-center gap-1">
               {navItems.map((item) => (
                 <Link
-                  key={item.label}
+                  key={item.key}
                   to={item.path}
                   className={cn(
                     'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
@@ -108,7 +107,7 @@ export function Header() {
                   )}
                 >
                   <item.icon className="w-4 h-4" />
-                  {item.label}
+                  {t(item.key)}
                 </Link>
               ))}
 
@@ -120,18 +119,18 @@ export function Header() {
                     moreOpen ? 'text-irctc-blue bg-irctc-blue-light/40' : 'text-gray-300 hover:text-white hover:bg-white/5'
                   )}
                 >
-                  More <ChevronDown className={cn('w-4 h-4 transition-transform', moreOpen && 'rotate-180')} />
+                  {t('nav.moreLabel')} <ChevronDown className={cn('w-4 h-4 transition-transform', moreOpen && 'rotate-180')} />
                 </button>
                 {moreOpen && (
                   <div className="absolute top-full right-0 mt-1 w-52 bg-[#1a2332] rounded-xl shadow-xl border border-white/10 py-1 animate-slide-down">
                     {moreItems.map((item) => (
                       <button
-                        key={item.label}
+                        key={item.key}
                         onClick={() => { navigate(item.path); setMoreOpen(false) }}
                         className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
                       >
                         <item.icon className="w-4 h-4" />
-                        {item.label}
+                        {t(item.key)}
                       </button>
                     ))}
                   </div>
@@ -139,7 +138,6 @@ export function Header() {
               </div>
             </nav>
 
-            {/* Right side */}
             <div className="flex items-center gap-2 sm:gap-3">
               <div ref={langRef} className="relative hidden sm:block">
                 <button
@@ -147,21 +145,25 @@ export function Header() {
                   className="flex items-center gap-1.5 px-3 py-2 border border-white/15 rounded-full text-sm text-gray-300 hover:border-irctc-blue transition-colors"
                 >
                   <Globe className="w-4 h-4" />
-                  <span className="hidden md:inline">{selectedLang}</span>
+                  <span className="hidden md:inline">{languageLabel}</span>
                   <ChevronDown className="w-3.5 h-3.5" />
                 </button>
                 {langOpen && (
                   <div className="absolute top-full right-0 mt-1 w-40 bg-[#1a2332] rounded-xl shadow-xl border border-white/10 py-1 animate-slide-down">
-                    {languages.map((lang) => (
+                    {LANGUAGES.map((lang) => (
                       <button
-                        key={lang}
-                        onClick={() => { setSelectedLang(lang); setLangOpen(false); showToast(`Language changed to ${lang}`, 'info') }}
+                        key={lang.code}
+                        onClick={() => {
+                          setLanguage(lang.code)
+                          setLangOpen(false)
+                          showToast(translations[lang.code]['lang.changed'], 'info')
+                        }}
                         className={cn(
                           'w-full px-4 py-2 text-sm text-left text-gray-300 hover:bg-white/5 transition-colors',
-                          selectedLang === lang && 'text-irctc-blue font-medium bg-irctc-blue-light/30'
+                          language === lang.code && 'text-irctc-blue font-medium bg-irctc-blue-light/30'
                         )}
                       >
-                        {lang}
+                        {lang.label}
                       </button>
                     ))}
                   </div>
@@ -172,10 +174,10 @@ export function Header() {
                 <div className="flex items-center gap-2">
                   <span className="hidden md:inline text-sm font-medium text-gray-300">{user?.name}</span>
                   <button
-                    onClick={() => { logout(); showToast('Logged out successfully', 'info') }}
+                    onClick={() => { logout(); showToast(t('auth.logoutSuccess'), 'info') }}
                     className="text-sm text-gray-400 hover:text-white font-medium px-3 py-2"
                   >
-                    Logout
+                    {t('nav.logout')}
                   </button>
                 </div>
               ) : (
@@ -184,8 +186,8 @@ export function Header() {
                   className="flex items-center gap-1.5 bg-irctc-blue text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-irctc-blue-dark transition-colors"
                 >
                   <User className="w-4 h-4" />
-                  <span className="hidden sm:inline">Login / Signup</span>
-                  <span className="sm:hidden">Login</span>
+                  <span className="hidden sm:inline">{t('nav.loginSignup')}</span>
+                  <span className="sm:hidden">{t('nav.login')}</span>
                 </button>
               )}
 
@@ -199,13 +201,12 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile Nav */}
         {mobileOpen && (
           <div className="xl:hidden border-t border-white/10 bg-[#111827] animate-slide-down">
             <nav className="px-4 py-3 space-y-1">
               {navItems.map((item) => (
                 <Link
-                  key={item.label}
+                  key={item.key}
                   to={item.path}
                   className={cn(
                     'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium',
@@ -213,18 +214,33 @@ export function Header() {
                   )}
                 >
                   <item.icon className="w-4 h-4" />
-                  {item.label}
+                  {t(item.key)}
                 </Link>
               ))}
               <div className="border-t border-white/10 pt-2 mt-2">
                 {moreItems.map((item) => (
                   <button
-                    key={item.label}
+                    key={item.key}
                     onClick={() => navigate(item.path)}
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300"
                   >
                     <item.icon className="w-4 h-4" />
-                    {item.label}
+                    {t(item.key)}
+                  </button>
+                ))}
+              </div>
+              <div className="border-t border-white/10 pt-2 mt-2">
+                {LANGUAGES.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => { setLanguage(lang.code); showToast(translations[lang.code]['lang.changed'], 'info') }}
+                    className={cn(
+                      'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm',
+                      language === lang.code ? 'text-irctc-blue bg-irctc-blue-light/40' : 'text-gray-300'
+                    )}
+                  >
+                    <Globe className="w-4 h-4" />
+                    {lang.label}
                   </button>
                 ))}
               </div>
@@ -233,40 +249,39 @@ export function Header() {
         )}
       </header>
 
-      {/* Auth Modal */}
-      <Modal isOpen={authOpen} onClose={() => setAuthOpen(false)} title={authMode === 'login' ? 'Login' : 'Sign Up'} size="sm">
+      <Modal isOpen={authOpen} onClose={() => setAuthOpen(false)} title={authMode === 'login' ? t('auth.login') : t('auth.signup')} size="sm">
         <form onSubmit={handleAuth} className="space-y-4">
           {authMode === 'signup' && (
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
-              <input name="name" type="text" className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" placeholder="Enter your name" />
+              <label className="block text-sm font-medium text-gray-300 mb-1">{t('auth.fullName')}</label>
+              <input name="name" type="text" className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
             </div>
           )}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Email</label>
-            <input name="email" type="email" required className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" placeholder="Enter your email" />
+            <label className="block text-sm font-medium text-gray-300 mb-1">{t('auth.email')}</label>
+            <input name="email" type="email" required className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
           </div>
           {authMode === 'signup' && (
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Phone</label>
-              <input name="phone" type="tel" className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" placeholder="Enter phone number" />
+              <label className="block text-sm font-medium text-gray-300 mb-1">{t('auth.phone')}</label>
+              <input name="phone" type="tel" className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
             </div>
           )}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Password</label>
-            <input name="password" type="password" required className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" placeholder="Enter password" />
+            <label className="block text-sm font-medium text-gray-300 mb-1">{t('auth.password')}</label>
+            <input name="password" type="password" required className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
           </div>
           <Button type="submit" className="w-full" size="lg">
-            {authMode === 'login' ? 'Login' : 'Create Account'}
+            {authMode === 'login' ? t('auth.loginBtn') : t('auth.createAccount')}
           </Button>
           <p className="text-center text-sm text-gray-400">
-            {authMode === 'login' ? "Don't have an account? " : 'Already have an account? '}
+            {authMode === 'login' ? t('auth.noAccount') : t('auth.hasAccount')}{' '}
             <button
               type="button"
               onClick={() => setAuthMode(authMode === 'login' ? 'signup' : 'login')}
               className="text-irctc-blue font-semibold hover:underline"
             >
-              {authMode === 'login' ? 'Sign Up' : 'Login'}
+              {authMode === 'login' ? t('auth.signUp') : t('auth.loginBtn')}
             </button>
           </p>
         </form>

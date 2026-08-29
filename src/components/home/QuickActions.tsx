@@ -1,10 +1,20 @@
 import { useNavigate } from 'react-router-dom'
-import { Train, Ticket, TicketX, Wallet, FileText } from 'lucide-react'
+import { Train, Ticket, TicketX, History, FileText } from 'lucide-react'
+import { useLanguage } from '../../context/LanguageContext'
+import type { TranslationKey } from '../../i18n/translations'
 
-const actions = [
+const actions: {
+  titleKey: TranslationKey
+  subtitleKey: TranslationKey
+  icon: typeof Train
+  iconGradient: string
+  iconShadow: string
+  titleColor: string
+  route: string
+}[] = [
   {
-    title: 'Check PNR Status',
-    subtitle: 'Get your PNR details',
+    titleKey: 'quick.pnr',
+    subtitleKey: 'quick.pnrSub',
     icon: Train,
     iconGradient: 'from-[#3B82F6] to-[#1D4ED8]',
     iconShadow: 'shadow-blue-500/40',
@@ -12,8 +22,8 @@ const actions = [
     route: '/pnr-status',
   },
   {
-    title: 'My Bookings',
-    subtitle: 'View your bookings',
+    titleKey: 'quick.bookings',
+    subtitleKey: 'quick.bookingsSub',
     icon: Ticket,
     iconGradient: 'from-[#22C55E] to-[#15803D]',
     iconShadow: 'shadow-green-500/40',
@@ -21,8 +31,8 @@ const actions = [
     route: '/my-bookings',
   },
   {
-    title: 'Cancel Ticket',
-    subtitle: 'Cancel your ticket',
+    titleKey: 'quick.cancel',
+    subtitleKey: 'quick.cancelSub',
     icon: TicketX,
     iconGradient: 'from-[#FB923C] to-[#EA580C]',
     iconShadow: 'shadow-orange-500/40',
@@ -30,17 +40,17 @@ const actions = [
     route: '/cancel-ticket',
   },
   {
-    title: 'E-Wallet',
-    subtitle: 'Top-up & manage',
-    icon: Wallet,
+    titleKey: 'quick.transactions',
+    subtitleKey: 'quick.transactionsSub',
+    icon: History,
     iconGradient: 'from-[#C084FC] to-[#9333EA]',
     iconShadow: 'shadow-purple-500/40',
     titleColor: 'text-purple-400',
-    route: '/e-wallet',
+    route: '/transaction-history',
   },
   {
-    title: 'File TDR',
-    subtitle: 'Track your refund',
+    titleKey: 'quick.tdr',
+    subtitleKey: 'quick.tdrSub',
     icon: FileText,
     iconGradient: 'from-[#22D3EE] to-[#0891B2]',
     iconShadow: 'shadow-cyan-500/40',
@@ -51,13 +61,14 @@ const actions = [
 
 export function QuickActions() {
   const navigate = useNavigate()
+  const { t } = useLanguage()
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10 bg-[#0a0e17]">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {actions.map((action) => (
           <button
-            key={action.title}
+            key={action.titleKey}
             onClick={() => navigate(action.route)}
             className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#1a2332] p-4 text-left hover:border-white/20 hover:bg-[#243044] hover:-translate-y-1 hover:shadow-xl hover:shadow-black/30 transition-all duration-300 group flex items-center gap-4"
           >
@@ -67,8 +78,8 @@ export function QuickActions() {
               <action.icon className="w-6 h-6 text-white drop-shadow-sm" strokeWidth={2.5} />
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className={`font-bold text-sm leading-tight ${action.titleColor}`}>{action.title}</h3>
-              <p className="text-xs text-gray-400 mt-1 leading-snug">{action.subtitle}</p>
+              <h3 className={`font-bold text-sm leading-tight ${action.titleColor}`}>{t(action.titleKey)}</h3>
+              <p className="text-xs text-gray-400 mt-1 leading-snug">{t(action.subtitleKey)}</p>
             </div>
           </button>
         ))}

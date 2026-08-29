@@ -6,6 +6,7 @@ import {
 } from 'date-fns'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Modal } from '../ui/Modal'
+import { useLanguage } from '../../context/LanguageContext'
 import { cn } from '../../utils/cn'
 
 interface DatePickerProps {
@@ -18,6 +19,7 @@ interface DatePickerProps {
 export function DatePicker({ isOpen, onClose, selectedDate, onSelect }: DatePickerProps) {
   const [viewDate, setViewDate] = useState(selectedDate || new Date())
   const today = startOfDay(new Date())
+  const { t } = useLanguage()
 
   useEffect(() => {
     if (isOpen && selectedDate) setViewDate(selectedDate)
@@ -37,7 +39,7 @@ export function DatePicker({ isOpen, onClose, selectedDate, onSelect }: DatePick
   const weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Select Journey Date" size="sm">
+    <Modal isOpen={isOpen} onClose={onClose} title={t('search.dateTitle')} size="sm">
       <div className="p-4">
         <div className="flex items-center justify-between mb-4">
           <button

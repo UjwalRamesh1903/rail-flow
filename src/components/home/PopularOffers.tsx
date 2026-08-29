@@ -2,27 +2,37 @@ import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
 import { offers } from '../../data/offers'
 import { useToast } from '../../context/ToastContext'
+import { useLanguage } from '../../context/LanguageContext'
 
 export function PopularOffers() {
   const navigate = useNavigate()
   const { showToast } = useToast()
+  const { t } = useLanguage()
   const featured = offers.slice(0, 4)
 
   const handleCoupon = (code: string, e: React.MouseEvent) => {
     e.stopPropagation()
     navigator.clipboard.writeText(code)
-    showToast(`Coupon code "${code}" copied to clipboard!`, 'success')
+    showToast(t('offers.couponCopied'), 'success')
+  }
+
+  const goToBooking = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    navigate('/')
+    setTimeout(() => {
+      document.getElementById('booking-search')?.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
   }
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12 bg-[#0a0e17]">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl lg:text-2xl font-bold text-white">Popular Offers</h2>
+        <h2 className="text-xl lg:text-2xl font-bold text-white">{t('offers.title')}</h2>
         <button
           onClick={() => navigate('/offers')}
           className="text-blue-400 text-sm font-semibold hover:underline flex items-center gap-1"
         >
-          View All Offers <ChevronRight className="w-4 h-4" />
+          {t('offers.viewAll')} <ChevronRight className="w-4 h-4" />
         </button>
       </div>
 
@@ -57,13 +67,10 @@ export function PopularOffers() {
                 </button>
               ) : (
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    navigate('/book-ticket')
-                  }}
+                  onClick={goToBooking}
                   className="text-xs font-bold px-4 py-1.5 bg-irctc-blue text-white rounded-lg hover:bg-irctc-blue-dark transition-colors"
                 >
-                  Book Now
+                  {t('offers.bookNow')}
                 </button>
               )}
             </div>

@@ -1,20 +1,24 @@
 import { Shield, Zap, Tag, Headphones } from 'lucide-react'
+import { useLanguage } from '../../context/LanguageContext'
+import type { TranslationKey } from '../../i18n/translations'
 
-const items = [
-  { icon: Shield, label: '100% Secure Booking' },
-  { icon: Zap, label: 'Instant Confirmation' },
-  { icon: Tag, label: 'No Hidden Charges' },
-  { icon: Headphones, label: 'Customer Support 24x7' },
+const items: { icon: typeof Shield; key: TranslationKey }[] = [
+  { icon: Shield, key: 'trust.secure' },
+  { icon: Zap, key: 'trust.instant' },
+  { icon: Tag, key: 'trust.noHidden' },
+  { icon: Headphones, key: 'trust.support' },
 ]
 
 export function TrustBar() {
+  const { t } = useLanguage()
+
   return (
     <section className="bg-[#111827]/80 border-y border-white/10 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4">
           {items.map((item, i) => (
             <div
-              key={item.label}
+              key={item.key}
               className={`flex items-center justify-center gap-2.5 py-4 ${
                 i < items.length - 1 ? 'lg:border-r border-white/10' : ''
               } ${i % 2 === 0 ? 'border-r border-white/10 lg:border-r' : ''} ${
@@ -22,7 +26,7 @@ export function TrustBar() {
               }`}
             >
               <item.icon className="w-5 h-5 text-blue-400 shrink-0" />
-              <span className="text-sm font-semibold text-gray-300">{item.label}</span>
+              <span className="text-sm font-semibold text-gray-300">{t(item.key)}</span>
             </div>
           ))}
         </div>

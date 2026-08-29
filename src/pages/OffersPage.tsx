@@ -2,19 +2,28 @@ import { useNavigate } from 'react-router-dom'
 import { Copy } from 'lucide-react'
 import { offers } from '../data/offers'
 import { useToast } from '../context/ToastContext'
+import { useLanguage } from '../context/LanguageContext'
 
 export function OffersPage() {
   const navigate = useNavigate()
   const { showToast } = useToast()
+  const { t } = useLanguage()
 
   const handleCopy = (code: string) => {
     navigator.clipboard.writeText(code)
-    showToast(`Coupon "${code}" copied!`, 'success')
+    showToast(t('offers.couponCopied'), 'success')
+  }
+
+  const goToBooking = () => {
+    navigate('/')
+    setTimeout(() => {
+      document.getElementById('booking-search')?.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
   }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-2xl font-bold text-gray-100 mb-2">All Offers</h1>
+      <h1 className="text-2xl font-bold text-gray-100 mb-2">{t('page.offers')}</h1>
       <p className="text-sm text-gray-400 mb-8">Exclusive deals and discounts on train bookings and services.</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -40,10 +49,10 @@ export function OffersPage() {
                   </button>
                 ) : (
                   <button
-                    onClick={() => navigate('/book-ticket')}
+                    onClick={goToBooking}
                     className="flex-1 py-2 bg-irctc-blue text-white text-sm font-bold rounded-lg hover:bg-irctc-blue-dark transition-colors"
                   >
-                    Book Now
+                    {t('offers.bookNow')}
                   </button>
                 )}
               </div>

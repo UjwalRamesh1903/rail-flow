@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { ChevronDown, Minus, Plus } from 'lucide-react'
+import { useLanguage } from '../../context/LanguageContext'
 import { cn } from '../../utils/cn'
 
 interface PassengerSelectorProps {
@@ -11,6 +12,7 @@ interface PassengerSelectorProps {
 export function PassengerSelector({ adults, children, onChange }: PassengerSelectorProps) {
   const [isOpen, setIsOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -21,7 +23,7 @@ export function PassengerSelector({ adults, children, onChange }: PassengerSelec
   }, [])
 
   const total = adults + children
-  const label = total === 1 ? '1 Passenger' : `${total} Passengers`
+  const label = total === 1 ? t('search.passenger') : `${total} ${t('search.passengersPlural')}`
 
   const updateAdults = (delta: number) => {
     const newAdults = adults + delta
@@ -54,8 +56,8 @@ export function PassengerSelector({ adults, children, onChange }: PassengerSelec
         <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 p-4 z-[60] animate-slide-down">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <div className="font-medium text-sm text-gray-900">Adults</div>
-              <div className="text-xs text-gray-500">12+ years</div>
+              <div className="font-medium text-sm text-gray-900">{t('search.adults')}</div>
+              <div className="text-xs text-gray-500">{t('search.adultsAge')}</div>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -77,8 +79,8 @@ export function PassengerSelector({ adults, children, onChange }: PassengerSelec
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <div className="font-medium text-sm text-gray-900">Children</div>
-              <div className="text-xs text-gray-500">5-11 years</div>
+              <div className="font-medium text-sm text-gray-900">{t('search.children')}</div>
+              <div className="text-xs text-gray-500">{t('search.childrenAge')}</div>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -102,7 +104,7 @@ export function PassengerSelector({ adults, children, onChange }: PassengerSelec
             onClick={() => setIsOpen(false)}
             className="w-full mt-4 py-2 bg-irctc-blue text-white text-sm font-semibold rounded-lg hover:bg-irctc-blue-dark transition-colors"
           >
-            Done
+            {t('search.done')}
           </button>
         </div>
       )}
