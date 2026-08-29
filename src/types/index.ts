@@ -71,6 +71,24 @@ export interface Booking {
   status: 'Confirmed' | 'RAC' | 'Waitlist' | 'Cancelled'
   fare: number
   bookedOn: string
+  userEmail?: string
+  paymentId?: string
+}
+
+export interface PaymentRecord {
+  id: string
+  paymentId: string
+  bookingId: string
+  pnr: string
+  trainNumber: string
+  trainName: string
+  amount: number
+  method: string
+  status: 'Success' | 'Refunded' | 'Failed'
+  date: string
+  from: string
+  to: string
+  journeyDate: string
 }
 
 export interface Offer {
@@ -96,14 +114,6 @@ export interface TravelInfoItem {
   title: string
   description: string
   icon: string
-}
-
-export interface WalletTransaction {
-  id: string
-  type: 'credit' | 'debit'
-  amount: number
-  description: string
-  date: string
 }
 
 export interface TDRReason {

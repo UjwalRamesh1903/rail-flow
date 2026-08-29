@@ -1,4 +1,7 @@
 import type { Booking } from '../types'
+import { seedBookingsByEmail } from './userBookings'
+
+const allSeedBookings = Object.values(seedBookingsByEmail).flat()
 
 export const mockBookings: Booking[] = [
   {
@@ -66,5 +69,9 @@ export const mockBookings: Booking[] = [
 ]
 
 export function getBookingByPNR(pnr: string): Booking | undefined {
-  return mockBookings.find((b) => b.pnr === pnr)
+  const normalized = pnr.trim()
+  return (
+    allSeedBookings.find((b) => b.pnr === normalized) ||
+    mockBookings.find((b) => b.pnr === normalized)
+  )
 }

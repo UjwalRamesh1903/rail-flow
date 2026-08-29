@@ -25,7 +25,7 @@ Open **http://localhost:43123**
 - 300+ station search with swap, date picker, class & passenger selectors
 - Train results with filters
 - Passenger details, **NTES-style seat selection**, review, payment, confirmation
-- PNR status, bookings, e-wallet, TDR, FAQs, and more
+- PNR status, bookings, transaction history, train tracking, TDR, FAQs, and more
 
 ## Build for production
 

@@ -31,7 +31,9 @@ export type TranslationKey =
   | 'auth.createAccount' | 'auth.noAccount' | 'auth.hasAccount' | 'auth.signUp' | 'auth.loginBtn'
   | 'auth.fillAll' | 'auth.loginSuccess' | 'auth.signupSuccess' | 'auth.logoutSuccess'
   | 'lang.changed'
-  | 'tx.title' | 'tx.recent' | 'tx.empty' | 'tx.credit' | 'tx.debit' | 'tx.balance'
+  | 'tx.title' | 'tx.recent' | 'tx.empty' | 'tx.totalSpent' | 'tx.totalBookings'
+  | 'quick.trackTrain' | 'quick.trackTrainSub'
+  | 'auth.loginRequiredTitle'
   | 'page.trains' | 'page.passengerDetails' | 'page.review' | 'page.payment' | 'page.confirmation'
   | 'page.pnr' | 'page.myBookings' | 'page.cancelTicket' | 'page.fileTdr' | 'page.offers'
   | 'page.travelInfo' | 'page.stationInfo' | 'page.faq' | 'page.contact' | 'page.feedback' | 'page.login'
@@ -88,6 +90,8 @@ const en: Translations = {
   'quick.cancelSub': 'Cancel your ticket',
   'quick.transactions': 'Transaction History',
   'quick.transactionsSub': 'View payment history',
+  'quick.trackTrain': 'Where Is My Train?',
+  'quick.trackTrainSub': 'Track live train location',
   'quick.tdr': 'File TDR',
   'quick.tdrSub': 'Track your refund',
   'trust.secure': '100% Secure Booking',
@@ -117,7 +121,8 @@ const en: Translations = {
   'auth.nameOrEmail': 'Name or Email',
   'auth.nameOrEmailPlaceholder': 'e.g. Rohit Sharma',
   'auth.invalidCredentials': 'Invalid name/email or password',
-  'auth.loginRequired': 'Please login to continue booking',
+  'auth.loginRequired': 'Please login to continue',
+  'auth.loginRequiredTitle': 'Login Required',
   'auth.demoHint': 'Demo: Rohit Sharma / Hitman · Tony Stark / Ironman · Ujwal Ramesh / Guddu',
   'auth.createAccount': 'Create Account',
   'auth.noAccount': "Don't have an account?",
@@ -130,11 +135,10 @@ const en: Translations = {
   'auth.logoutSuccess': 'Logged out successfully',
   'lang.changed': 'Language changed successfully',
   'tx.title': 'Transaction History',
-  'tx.recent': 'Recent Transactions',
-  'tx.empty': 'No transactions yet.',
-  'tx.credit': 'Credit',
-  'tx.debit': 'Debit',
-  'tx.balance': 'Wallet Balance',
+  'tx.recent': 'Payment History',
+  'tx.empty': 'No transactions yet. Book a ticket to see your payment history.',
+  'tx.totalSpent': 'Total Amount Spent',
+  'tx.totalBookings': 'Total Bookings',
   'page.trains': 'Available Trains',
   'page.passengerDetails': 'Passenger Details',
   'page.review': 'Review Booking',
@@ -246,11 +250,13 @@ const hi: Translations = {
   'auth.logoutSuccess': 'सफलतापूर्वक लॉगआउट',
   'lang.changed': 'भाषा सफलतापूर्वक बदली गई',
   'tx.title': 'लेनदेन इतिहास',
-  'tx.recent': 'हाल के लेनदेन',
-  'tx.empty': 'अभी कोई लेनदेन नहीं।',
-  'tx.credit': 'जमा',
-  'tx.debit': 'निकासी',
-  'tx.balance': 'वॉलेट बैलेंस',
+  'tx.recent': 'भुगतान इतिहास',
+  'tx.empty': 'अभी कोई लेनदेन नहीं। टिकट बुक करने पर भुगतान इतिहास दिखेगा।',
+  'tx.totalSpent': 'कुल खर्च',
+  'tx.totalBookings': 'कुल बुकिंग',
+  'quick.trackTrain': 'मेरी ट्रेन कहाँ है?',
+  'quick.trackTrainSub': 'लाइव ट्रेन स्थान देखें',
+  'auth.loginRequiredTitle': 'लॉगिन आवश्यक',
   'page.trains': 'उपलब्ध ट्रेनें',
   'page.passengerDetails': 'यात्री विवरण',
   'page.review': 'बुकिंग समीक्षा',

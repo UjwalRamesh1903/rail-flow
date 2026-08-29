@@ -15,6 +15,7 @@ const ConfirmationPage = lazy(() => import('./pages/ConfirmationPage').then((m) 
 const PNRStatusPage = lazy(() => import('./pages/PNRStatusPage').then((m) => ({ default: m.PNRStatusPage })))
 const MyBookingsPage = lazy(() => import('./pages/MyBookingsPage').then((m) => ({ default: m.MyBookingsPage })))
 const CancelTicketPage = lazy(() => import('./pages/CancelTicketPage').then((m) => ({ default: m.CancelTicketPage })))
+const TrackTrainPage = lazy(() => import('./pages/TrackTrainPage').then((m) => ({ default: m.TrackTrainPage })))
 const TransactionHistoryPage = lazy(() => import('./pages/TransactionHistoryPage').then((m) => ({ default: m.TransactionHistoryPage })))
 const FileTDRPage = lazy(() => import('./pages/FileTDRPage').then((m) => ({ default: m.FileTDRPage })))
 const OffersPage = lazy(() => import('./pages/OffersPage').then((m) => ({ default: m.OffersPage })))
@@ -54,8 +55,8 @@ export default function App() {
                     <Route path="/pnr-status" element={<PNRStatusPage />} />
                     <Route path="/my-bookings" element={<MyBookingsPage />} />
                     <Route path="/cancel-ticket" element={<CancelTicketPage />} />
+                    <Route path="/track-train" element={<TrackTrainPage />} />
                     <Route path="/transaction-history" element={<TransactionHistoryPage />} />
-                    <Route path="/e-wallet" element={<TransactionHistoryPage />} />
                     <Route path="/file-tdr" element={<FileTDRPage />} />
                     <Route path="/offers" element={<OffersPage />} />
                     <Route path="/travel-info" element={<TravelInfoPage />} />

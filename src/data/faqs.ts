@@ -41,7 +41,7 @@ export const faqs: FAQ[] = [
     id: 'f7',
     category: 'Payment',
     question: 'What payment methods are accepted?',
-    answer: 'IRCTC accepts credit cards, debit cards, net banking, UPI, and IRCTC e-Wallet. International cards are also accepted for select bookings.',
+    answer: 'IRCTC accepts credit cards, debit cards, net banking, and UPI. International cards are also accepted for select bookings.',
   },
   {
     id: 'f8',
@@ -57,8 +57,8 @@ export const faqs: FAQ[] = [
   },
   {
     id: 'f10',
-    category: 'E-Wallet',
-    question: 'How does IRCTC e-Wallet work?',
-    answer: 'IRCTC e-Wallet allows you to preload money for faster bookings. You can add money via net banking, UPI, or cards. Wallet balance can be used for ticket bookings and other IRCTC services.',
+    category: 'Tracking',
+    question: 'How can I track my train live?',
+    answer: 'Use the "Where Is My Train?" feature on the homepage. Enter your PNR or train number to see the current running status, last crossed station, next station, delay, and estimated arrival time.',
   },
 ]

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Train, Ticket, TicketX, History, FileText } from 'lucide-react'
+import { Train, Ticket, TicketX, History, FileText, Navigation } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
 import type { TranslationKey } from '../../i18n/translations'
 
@@ -40,6 +40,15 @@ const actions: {
     route: '/cancel-ticket',
   },
   {
+    titleKey: 'quick.trackTrain',
+    subtitleKey: 'quick.trackTrainSub',
+    icon: Navigation,
+    iconGradient: 'from-[#F59E0B] to-[#D97706]',
+    iconShadow: 'shadow-amber-500/40',
+    titleColor: 'text-amber-400',
+    route: '/track-train',
+  },
+  {
     titleKey: 'quick.transactions',
     subtitleKey: 'quick.transactionsSub',
     icon: History,
@@ -65,7 +74,7 @@ export function QuickActions() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10 bg-[#0a0e17]">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         {actions.map((action) => (
           <button
             key={action.titleKey}

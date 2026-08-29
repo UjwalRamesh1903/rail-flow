@@ -5,10 +5,12 @@ import type {
   SelectedTrain,
   Passenger,
   Booking,
+  PaymentRecord,
 } from '../types'
 import type { SeatAssignment, BookingExtras } from '../data/ntesCoachData'
 import { getStationByCode } from '../utils/searchStations'
 import { generatePNR } from '../utils/formatDate'
+import { seedBookingsByEmail, seedPaymentsByEmail } from '../data/userBookings'
 import { addDays, startOfDay } from 'date-fns'
 
 interface BookingContextType {
@@ -28,14 +30,12 @@ interface BookingContextType {
   seatAssignments: SeatAssignment[]
   setSeatAssignments: (assignments: SeatAssignment[]) => void
   lastBooking: Booking | null
-  confirmBooking: () => Booking
+  confirmBooking: (userEmail: string, paymentMethod: string) => Booking
   resetBooking: () => void
-  walletBalance: number
-  addWalletMoney: (amount: number) => void
-  deductWallet: (amount: number) => boolean
-  walletTransactions: { id: string; type: 'credit' | 'debit'; amount: number; description: string; date: string }[]
+  getUserBookings: (email: string) => Booking[]
+  getPaymentHistory: (email: string) => PaymentRecord[]
   cancelledBookings: string[]
-  cancelBooking: (bookingId: string) => void
+  cancelBooking: (bookingId: string, email: string) => void
 }
 
 const defaultSearch: BookingSearch = {
@@ -58,6 +58,23 @@ const defaultExtras: BookingExtras = {
   reservationUpto: '',
 }
 
+function loadUserData<T>(key: string, fallback: T): T {
+  try {
+    const raw = localStorage.getItem(key)
+    return raw ? JSON.parse(raw) : fallback
+  } catch {
+    return fallback
+  }
+}
+
+function bookingsKey(email: string) {
+  return `irctc-bookings-${email}`
+}
+
+function paymentsKey(email: string) {
+  return `irctc-payments-${email}`
+}
+
 const BookingContext = createContext<BookingContextType | null>(null)
 
 export function BookingProvider({ children }: { children: ReactNode }) {
@@ -67,13 +84,9 @@ export function BookingProvider({ children }: { children: ReactNode }) {
   const [bookingExtras, setBookingExtras] = useState<BookingExtras>(defaultExtras)
   const [seatAssignments, setSeatAssignments] = useState<SeatAssignment[]>([])
   const [lastBooking, setLastBooking] = useState<Booking | null>(null)
-  const [walletBalance, setWalletBalance] = useState(2500)
-  const [walletTransactions, setWalletTransactions] = useState<BookingContextType['walletTransactions']>([
-    { id: 'wt1', type: 'credit', amount: 5000, description: 'Wallet top-up via UPI', date: '2025-05-01' },
-    { id: 'wt2', type: 'debit', amount: 1850, description: 'Ticket booking - 12951', date: '2025-05-15' },
-    { id: 'wt3', type: 'debit', amount: 650, description: 'Ticket booking - 12627', date: '2025-06-02' },
-  ])
-  const [cancelledBookings, setCancelledBookings] = useState<string[]>([])
+  const [cancelledBookings, setCancelledBookings] = useState<string[]>(
+    () => loadUserData('irctc-cancelled', [])
+  )
 
   const setFrom = useCallback((station: Station) => {
     setSearch((prev) => ({ ...prev, from: station }))
@@ -103,8 +116,27 @@ export function BookingProvider({ children }: { children: ReactNode }) {
     setPassengers(p)
   }, [])
 
-  const confirmBooking = useCallback((): Booking => {
+  const getUserBookings = useCallback((email: string): Booking[] => {
+    const stored = loadUserData<Booking[]>(bookingsKey(email), [])
+    const seeded = seedBookingsByEmail[email] ?? []
+    const merged = [...stored, ...seeded]
+    return merged.filter(
+      (b, i, arr) => arr.findIndex((x) => x.id === b.id) === i && !cancelledBookings.includes(b.id)
+    )
+  }, [cancelledBookings])
+
+  const getPaymentHistory = useCallback((email: string): PaymentRecord[] => {
+    const stored = loadUserData<PaymentRecord[]>(paymentsKey(email), [])
+    const seeded = seedPaymentsByEmail[email] ?? []
+    const merged = [...stored, ...seeded]
+    return merged.sort((a, b) => b.date.localeCompare(a.date)).filter(
+      (p, i, arr) => arr.findIndex((x) => x.paymentId === p.paymentId) === i
+    )
+  }, [])
+
+  const confirmBooking = useCallback((userEmail: string, paymentMethod: string): Booking => {
     const pnr = generatePNR()
+    const paymentId = `PAY${Date.now().toString().slice(-8)}`
     const passengersWithBerths = passengers.map((p, i) => {
       const seat = seatAssignments.find((s) => s.passengerIndex === i)
       return {
@@ -117,6 +149,10 @@ export function BookingProvider({ children }: { children: ReactNode }) {
       }
     })
     const insuranceFee = bookingExtras.travelInsurance ? 0.45 * passengers.length : 0
+    const fare = selectedTrain!.selectedClass.fare * passengers.length + Math.round(insuranceFee)
+    const bookedOn = new Date().toISOString().split('T')[0]
+    const journeyDate = search.date!.toISOString().split('T')[0]
+
     const booking: Booking = {
       id: `bk-${Date.now()}`,
       pnr,
@@ -126,15 +162,39 @@ export function BookingProvider({ children }: { children: ReactNode }) {
       fromCode: search.from!.code,
       to: search.to!.name,
       toCode: search.to!.code,
-      date: search.date!.toISOString().split('T')[0],
+      date: journeyDate,
       departure: selectedTrain!.train.departure,
       arrival: selectedTrain!.train.arrival,
       class: selectedTrain!.selectedClass.name,
       passengers: passengersWithBerths,
       status: 'Confirmed',
-      fare: selectedTrain!.selectedClass.fare * passengers.length + Math.round(insuranceFee),
-      bookedOn: new Date().toISOString().split('T')[0],
+      fare,
+      bookedOn,
+      userEmail,
+      paymentId,
     }
+
+    const payment: PaymentRecord = {
+      id: `pay-${Date.now()}`,
+      paymentId,
+      bookingId: booking.id,
+      pnr,
+      trainNumber: booking.trainNumber,
+      trainName: booking.trainName,
+      amount: fare,
+      method: paymentMethod,
+      status: 'Success',
+      date: bookedOn,
+      from: booking.from,
+      to: booking.to,
+      journeyDate,
+    }
+
+    const existingBookings = loadUserData<Booking[]>(bookingsKey(userEmail), [])
+    const existingPayments = loadUserData<PaymentRecord[]>(paymentsKey(userEmail), [])
+    localStorage.setItem(bookingsKey(userEmail), JSON.stringify([booking, ...existingBookings]))
+    localStorage.setItem(paymentsKey(userEmail), JSON.stringify([payment, ...existingPayments]))
+
     setLastBooking(booking)
     return booking
   }, [selectedTrain, search, passengers, seatAssignments, bookingExtras])
@@ -146,26 +206,12 @@ export function BookingProvider({ children }: { children: ReactNode }) {
     setBookingExtras(defaultExtras)
   }, [])
 
-  const addWalletMoney = useCallback((amount: number) => {
-    setWalletBalance((prev) => prev + amount)
-    setWalletTransactions((prev) => [
-      { id: `wt-${Date.now()}`, type: 'credit', amount, description: 'Wallet top-up', date: new Date().toISOString().split('T')[0] },
-      ...prev,
-    ])
-  }, [])
-
-  const deductWallet = useCallback((amount: number) => {
-    if (walletBalance < amount) return false
-    setWalletBalance((prev) => prev - amount)
-    setWalletTransactions((prev) => [
-      { id: `wt-${Date.now()}`, type: 'debit', amount, description: 'Ticket payment', date: new Date().toISOString().split('T')[0] },
-      ...prev,
-    ])
-    return true
-  }, [walletBalance])
-
-  const cancelBooking = useCallback((bookingId: string) => {
-    setCancelledBookings((prev) => [...prev, bookingId])
+  const cancelBooking = useCallback((bookingId: string, _email: string) => {
+    setCancelledBookings((prev) => {
+      const next = [...prev, bookingId]
+      localStorage.setItem('irctc-cancelled', JSON.stringify(next))
+      return next
+    })
   }, [])
 
   const value = useMemo(
@@ -188,18 +234,16 @@ export function BookingProvider({ children }: { children: ReactNode }) {
       lastBooking,
       confirmBooking,
       resetBooking,
-      walletBalance,
-      addWalletMoney,
-      deductWallet,
-      walletTransactions,
+      getUserBookings,
+      getPaymentHistory,
       cancelledBookings,
       cancelBooking,
     }),
     [
       search, setFrom, setTo, swapStations, setDate, setTravelClass, setPassengersCount,
       selectedTrain, passengers, setPassengerDetails, bookingExtras, seatAssignments,
-      lastBooking, confirmBooking, resetBooking, walletBalance, addWalletMoney,
-      deductWallet, walletTransactions, cancelledBookings, cancelBooking,
+      lastBooking, confirmBooking, resetBooking, getUserBookings, getPaymentHistory,
+      cancelledBookings, cancelBooking,
     ]
   )
 
