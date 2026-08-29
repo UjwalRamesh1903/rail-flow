@@ -18,28 +18,28 @@ export function ConfirmationPage() {
       <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
         <CheckCircle className="w-8 h-8 text-green-600" />
       </div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Booking Confirmed!</h1>
-      <p className="text-gray-500 mb-8">Your ticket has been booked successfully.</p>
+      <h1 className="text-2xl font-bold text-gray-100 mb-2">Booking Confirmed!</h1>
+      <p className="text-gray-400 mb-8">Your ticket has been booked successfully.</p>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 text-left mb-6">
-        <div className="text-center mb-4 pb-4 border-b border-gray-100">
-          <div className="text-xs text-gray-500 uppercase tracking-wide">PNR Number</div>
+      <div className="bg-[#1a2332] rounded-2xl border border-white/10 p-6 text-left mb-6">
+        <div className="text-center mb-4 pb-4 border-b border-white/10">
+          <div className="text-xs text-gray-400 uppercase tracking-wide">PNR Number</div>
           <div className="text-3xl font-bold text-irctc-blue tracking-wider mt-1">{lastBooking.pnr}</div>
         </div>
         <div className="grid grid-cols-2 gap-3 text-sm">
-          <div><span className="text-gray-500">Train:</span> <span className="font-medium">{lastBooking.trainNumber}</span></div>
-          <div><span className="text-gray-500">Name:</span> <span className="font-medium">{lastBooking.trainName}</span></div>
-          <div><span className="text-gray-500">From:</span> <span className="font-medium">{lastBooking.from}</span></div>
-          <div><span className="text-gray-500">To:</span> <span className="font-medium">{lastBooking.to}</span></div>
-          <div><span className="text-gray-500">Date:</span> <span className="font-medium">{formatDisplayDate(lastBooking.date)}</span></div>
-          <div><span className="text-gray-500">Class:</span> <span className="font-medium">{lastBooking.class}</span></div>
-          <div><span className="text-gray-500">Status:</span> <span className="font-medium text-green-600">{lastBooking.status}</span></div>
-          <div><span className="text-gray-500">Fare:</span> <span className="font-medium">₹{lastBooking.fare}</span></div>
+          <div><span className="text-gray-400">Train:</span> <span className="font-medium">{lastBooking.trainNumber}</span></div>
+          <div><span className="text-gray-400">Name:</span> <span className="font-medium">{lastBooking.trainName}</span></div>
+          <div><span className="text-gray-400">From:</span> <span className="font-medium">{lastBooking.from}</span></div>
+          <div><span className="text-gray-400">To:</span> <span className="font-medium">{lastBooking.to}</span></div>
+          <div><span className="text-gray-400">Date:</span> <span className="font-medium">{formatDisplayDate(lastBooking.date)}</span></div>
+          <div><span className="text-gray-400">Class:</span> <span className="font-medium">{lastBooking.class}</span></div>
+          <div><span className="text-gray-400">Status:</span> <span className="font-medium text-green-600">{lastBooking.status}</span></div>
+          <div><span className="text-gray-400">Fare:</span> <span className="font-medium">₹{lastBooking.fare}</span></div>
         </div>
-        <div className="mt-4 pt-4 border-t border-gray-100">
+        <div className="mt-4 pt-4 border-t border-white/10">
           <h4 className="font-semibold text-sm mb-2">Passengers</h4>
           {lastBooking.passengers.map((p, i) => (
-            <div key={i} className="text-sm text-gray-600 py-1">
+            <div key={i} className="text-sm text-gray-400 py-1">
               {p.name} — {p.age} yrs, {p.gender}
               {p.berth && <span className="block text-irctc-blue font-medium text-xs mt-0.5">{p.berth}</span>}
             </div>

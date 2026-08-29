@@ -2,10 +2,14 @@
 @import "tailwindcss";
 
 @theme {
-  --color-irctc-blue: #0052CC;
-  --color-irctc-blue-dark: #003d99;
-  --color-irctc-blue-light: #e8f2ff;
-  --color-irctc-blue-hover: #0066FF;
+  --color-irctc-blue: #3b82f6;
+  --color-irctc-blue-dark: #2563eb;
+  --color-irctc-blue-light: #1e3a5f;
+  --color-irctc-blue-hover: #60a5fa;
+  --color-dark-bg: #0a0e17;
+  --color-dark-surface: #111827;
+  --color-dark-card: #1a2332;
+  --color-dark-elevated: #243044;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
@@ -31,8 +35,43 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #f8fafc;
-  color: #1e293b;
+  background: #0a0e17;
+  color: #e2e8f0;
+}
+
+/* Reusable dark UI surfaces */
+.surface-card {
+  background: #1a2332;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+}
+
+.surface-input {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+}
+
+.surface-input::placeholder {
+  color: #64748b;
+}
+
+.surface-input:focus {
+  outline: none;
+  ring: 2px;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+.page-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.page-subtext {
+  font-size: 0.875rem;
+  color: #94a3b8;
 }
 
 @keyframes fadeIn {

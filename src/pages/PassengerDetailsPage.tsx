@@ -62,34 +62,34 @@ export function PassengerDetailsPage() {
         <ArrowLeft className="w-4 h-4" /> Back to Trains
       </button>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-1">Passenger Details</h1>
-      <p className="text-sm text-gray-500 mb-6">
+      <h1 className="text-2xl font-bold text-gray-100 mb-1">Passenger Details</h1>
+      <p className="text-sm text-gray-400 mb-6">
         {selectedTrain.train.number} — {selectedTrain.train.name} | {selectedTrain.selectedClass.name}
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Contact Details */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-5">
-          <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+        <div className="bg-[#1a2332] rounded-2xl border border-white/10 p-5">
+          <h3 className="font-semibold text-gray-100 mb-3 flex items-center gap-2">
             <Mail className="w-4 h-4 text-irctc-blue" /> Contact Details
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Email ID *</label>
+              <label className="block text-xs font-medium text-gray-400 mb-1">Email ID *</label>
               <input
                 required type="email" value={extras.email}
                 onChange={(e) => setExtras({ ...extras, email: e.target.value })}
                 placeholder="your@email.com"
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
+                className="surface-input w-full px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Mobile Number *</label>
+              <label className="block text-xs font-medium text-gray-400 mb-1">Mobile Number *</label>
               <input
                 required type="tel" value={extras.mobile}
                 onChange={(e) => setExtras({ ...extras, mobile: e.target.value.replace(/\D/g, '').slice(0, 10) })}
                 placeholder="10-digit mobile"
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
+                className="surface-input w-full px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
               />
             </div>
           </div>
@@ -97,37 +97,37 @@ export function PassengerDetailsPage() {
 
         {/* Passenger forms */}
         {passengers.map((p, i) => (
-          <div key={i} className="bg-white rounded-2xl border border-gray-100 p-5">
-            <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+          <div key={i} className="bg-[#1a2332] rounded-2xl border border-white/10 p-5">
+            <h3 className="font-semibold text-gray-100 mb-3 flex items-center gap-2">
               <User className="w-4 h-4 text-irctc-blue" />
               Passenger {i + 1} {i < search.adults ? '(Adult)' : '(Child)'}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
               <div className="sm:col-span-2">
-                <label className="block text-xs font-medium text-gray-500 mb-1">Full Name *</label>
+                <label className="block text-xs font-medium text-gray-400 mb-1">Full Name *</label>
                 <input
                   required value={p.name}
                   onChange={(e) => updatePassenger(i, 'name', e.target.value)}
                   placeholder="As per ID proof"
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
+                  className="surface-input w-full px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1">Age *</label>
+                <label className="block text-xs font-medium text-gray-400 mb-1">Age *</label>
                 <input
                   type="number" required min={1} max={120}
                   value={p.age}
                   onChange={(e) => updatePassenger(i, 'age', e.target.value === '' ? '' : parseInt(e.target.value))}
                   placeholder="Age"
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
+                  className="surface-input w-full px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1">Gender *</label>
+                <label className="block text-xs font-medium text-gray-400 mb-1">Gender *</label>
                 <select
                   value={p.gender}
                   onChange={(e) => updatePassenger(i, 'gender', e.target.value)}
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
+                  className="surface-input w-full px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
                 >
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
@@ -139,45 +139,45 @@ export function PassengerDetailsPage() {
         ))}
 
         {/* ID Proof */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-5">
-          <h3 className="font-semibold text-gray-900 mb-3">ID Proof Type</h3>
+        <div className="bg-[#1a2332] rounded-2xl border border-white/10 p-5">
+          <h3 className="font-semibold text-gray-100 mb-3">ID Proof Type</h3>
           <select
             value={extras.idProofType}
             onChange={(e) => setExtras({ ...extras, idProofType: e.target.value })}
-            className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
+            className="surface-input w-full px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
           >
             {idProofTypes.map((t) => <option key={t} value={t}>{t}</option>)}
           </select>
         </div>
 
         {/* Boarding / Reservation */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-5">
-          <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+        <div className="bg-[#1a2332] rounded-2xl border border-white/10 p-5">
+          <h3 className="font-semibold text-gray-100 mb-3 flex items-center gap-2">
             <MapPin className="w-4 h-4 text-irctc-blue" /> Journey Stations
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Boarding Station</label>
+              <label className="block text-xs font-medium text-gray-400 mb-1">Boarding Station</label>
               <input
                 value={extras.boardingStation || search.from?.name || ''}
                 onChange={(e) => setExtras({ ...extras, boardingStation: e.target.value })}
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
+                className="surface-input w-full px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Reservation Up To</label>
+              <label className="block text-xs font-medium text-gray-400 mb-1">Reservation Up To</label>
               <input
                 value={extras.reservationUpto || search.to?.name || ''}
                 onChange={(e) => setExtras({ ...extras, reservationUpto: e.target.value })}
-                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
+                className="surface-input w-full px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
               />
             </div>
           </div>
         </div>
 
         {/* IRCTC Options */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-3">
-          <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+        <div className="bg-[#1a2332] rounded-2xl border border-white/10 p-5 space-y-3">
+          <h3 className="font-semibold text-gray-100 flex items-center gap-2">
             <Shield className="w-4 h-4 text-irctc-blue" /> Booking Options
           </h3>
           <label className="flex items-start gap-3 cursor-pointer">
@@ -188,7 +188,7 @@ export function PassengerDetailsPage() {
             />
             <div>
               <div className="text-sm font-medium">Travel Insurance (₹0.45/person)</div>
-              <div className="text-xs text-gray-500">Covers accidental death and hospitalization during journey</div>
+              <div className="text-xs text-gray-400">Covers accidental death and hospitalization during journey</div>
             </div>
           </label>
           <label className="flex items-start gap-3 cursor-pointer">
@@ -199,7 +199,7 @@ export function PassengerDetailsPage() {
             />
             <div>
               <div className="text-sm font-medium">Consider for Auto Upgradation</div>
-              <div className="text-xs text-gray-500">Get upgraded to higher class if seats available (no extra charge)</div>
+              <div className="text-xs text-gray-400">Get upgraded to higher class if seats available (no extra charge)</div>
             </div>
           </label>
         </div>

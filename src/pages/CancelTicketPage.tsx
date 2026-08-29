@@ -30,8 +30,8 @@ export function CancelTicketPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-12 text-center">
         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Ticket Cancelled</h1>
-        <p className="text-gray-500 mb-4">
+        <h1 className="text-2xl font-bold text-gray-100 mb-2">Ticket Cancelled</h1>
+        <p className="text-gray-400 mb-4">
           PNR {selected.pnr} has been cancelled. Refund of ₹{Math.round(selected.fare * 0.7)} will be credited.
         </p>
         <Button onClick={() => { setCancelled(false); setSelectedId(null) }}>Cancel Another Ticket</Button>
@@ -41,11 +41,11 @@ export function CancelTicketPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Cancel Ticket</h1>
-      <p className="text-sm text-gray-500 mb-6">Select a booking to cancel. Cancellation charges may apply.</p>
+      <h1 className="text-2xl font-bold text-gray-100 mb-2">Cancel Ticket</h1>
+      <p className="text-sm text-gray-400 mb-6">Select a booking to cancel. Cancellation charges may apply.</p>
 
       {availableBookings.length === 0 ? (
-        <div className="bg-white rounded-2xl border p-12 text-center text-gray-500">No active bookings to cancel.</div>
+        <div className="bg-[#1a2332] rounded-2xl border p-12 text-center text-gray-400">No active bookings to cancel.</div>
       ) : (
         <>
           <div className="space-y-3 mb-6">
@@ -53,13 +53,13 @@ export function CancelTicketPage() {
               <button
                 key={b.id}
                 onClick={() => setSelectedId(b.id)}
-                className={`w-full text-left bg-white rounded-2xl border-2 p-4 transition-all ${
-                  selectedId === b.id ? 'border-irctc-blue bg-irctc-blue-light/20' : 'border-gray-100 hover:border-gray-200'
+                className={`w-full text-left bg-[#1a2332] rounded-2xl border-2 p-4 transition-all ${
+                  selectedId === b.id ? 'border-irctc-blue bg-irctc-blue-light/20' : 'border-white/10 hover:border-white/10'
                 }`}
               >
                 <div className="font-bold">{b.trainNumber} - {b.trainName}</div>
-                <div className="text-sm text-gray-500">{b.from} → {b.to} | {formatDisplayDate(b.date)}</div>
-                <div className="text-sm text-gray-500">PNR: {b.pnr} | ₹{b.fare}</div>
+                <div className="text-sm text-gray-400">{b.from} → {b.to} | {formatDisplayDate(b.date)}</div>
+                <div className="text-sm text-gray-400">PNR: {b.pnr} | ₹{b.fare}</div>
               </button>
             ))}
           </div>

@@ -42,14 +42,14 @@ export function DatePicker({ isOpen, onClose, selectedDate, onSelect }: DatePick
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={() => setViewDate(subMonths(viewDate, 1))}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-lg hover:bg-white/10 text-gray-300 transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <span className="font-semibold text-gray-900">{format(viewDate, 'MMMM yyyy')}</span>
+          <span className="font-semibold text-gray-100">{format(viewDate, 'MMMM yyyy')}</span>
           <button
             onClick={() => setViewDate(addMonths(viewDate, 1))}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-lg hover:bg-white/10 text-gray-300 transition-colors"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -57,7 +57,7 @@ export function DatePicker({ isOpen, onClose, selectedDate, onSelect }: DatePick
 
         <div className="grid grid-cols-7 gap-1 mb-2">
           {weekDays.map((d) => (
-            <div key={d} className="text-center text-xs font-medium text-gray-500 py-2">{d}</div>
+            <div key={d} className="text-center text-xs font-medium text-gray-400 py-2">{d}</div>
           ))}
         </div>
 
@@ -77,11 +77,11 @@ export function DatePicker({ isOpen, onClose, selectedDate, onSelect }: DatePick
                 disabled={isPast}
                 className={cn(
                   'w-full aspect-square flex items-center justify-center text-sm rounded-lg transition-all',
-                  isPast && 'text-gray-300 cursor-not-allowed',
-                  !isPast && !isSelected && 'hover:bg-irctc-blue-light text-gray-700',
+                  isPast && 'text-gray-600 cursor-not-allowed',
+                  !isPast && !isSelected && 'hover:bg-irctc-blue-light/30 text-gray-200',
                   isSelected && 'bg-irctc-blue text-white font-semibold',
-                  isToday(day) && !isSelected && 'ring-2 ring-irctc-blue/30 font-semibold',
-                  !isCurrentMonth && 'text-gray-300',
+                  isToday(day) && !isSelected && 'ring-2 ring-irctc-blue/30 font-semibold text-gray-100',
+                  !isCurrentMonth && 'text-gray-600',
                 )}
               >
                 {format(day, 'd')}

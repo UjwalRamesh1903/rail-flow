@@ -82,7 +82,7 @@ export function SeatSelectionPage() {
       <div className="sticky top-0 z-30 bg-[#161b26] border-b border-white/10">
         <div className="max-w-4xl mx-auto px-4 py-3">
           <div className="flex items-center gap-3">
-            <button onClick={() => navigate('/passenger-details')} className="p-2 rounded-lg hover:bg-white/10">
+            <button onClick={() => navigate('/passenger-details')} className="p-2 rounded-lg hover:bg-[#1a2332]/10">
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div className="flex-1 min-w-0">
@@ -93,7 +93,7 @@ export function SeatSelectionPage() {
                 {selectedTrain.train.number} — {selectedTrain.train.name}
               </p>
             </div>
-            <button className="p-2 rounded-lg hover:bg-white/10"><Share2 className="w-5 h-5" /></button>
+            <button className="p-2 rounded-lg hover:bg-[#1a2332]/10"><Share2 className="w-5 h-5" /></button>
           </div>
 
           {/* Coach selector */}
@@ -128,7 +128,7 @@ export function SeatSelectionPage() {
                 onClick={() => setActiveSection(s)}
                 className={cn(
                   'w-8 h-8 rounded-full text-xs font-bold shrink-0 transition-all',
-                  activeSection === s ? 'bg-blue-500 text-white' : 'bg-white/10 text-gray-400 hover:bg-white/20'
+                  activeSection === s ? 'bg-blue-500 text-white' : 'bg-[#1a2332]/10 text-gray-400 hover:bg-[#1a2332]/20'
                 )}
               >
                 {s}
@@ -157,7 +157,7 @@ export function SeatSelectionPage() {
                   ? 'bg-blue-500 border-blue-400 text-white'
                   : assigned
                     ? 'bg-green-900/40 border-green-500/50 text-green-300'
-                    : 'bg-white/5 border-white/20 text-gray-400'
+                    : 'bg-[#1a2332]/5 border-white/20 text-gray-400'
               )}
             >
               P{i + 1} {assigned ? `— ${assigned.coachLabel}/${assigned.berthNumber}` : ''}

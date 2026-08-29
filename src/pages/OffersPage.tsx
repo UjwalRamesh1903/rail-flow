@@ -14,19 +14,19 @@ export function OffersPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">All Offers</h1>
-      <p className="text-sm text-gray-500 mb-8">Exclusive deals and discounts on train bookings and services.</p>
+      <h1 className="text-2xl font-bold text-gray-100 mb-2">All Offers</h1>
+      <p className="text-sm text-gray-400 mb-8">Exclusive deals and discounts on train bookings and services.</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {offers.map((offer) => (
-          <div key={offer.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all">
+          <div key={offer.id} className="bg-[#1a2332] rounded-2xl border border-white/10 overflow-hidden hover:shadow-lg transition-all">
             <div className="h-44 overflow-hidden">
               <img src={offer.image} alt={offer.title} className="w-full h-full object-cover" />
             </div>
             <div className="p-5">
               <span className="text-xs font-medium text-irctc-blue bg-irctc-blue-light px-2 py-0.5 rounded">{offer.category}</span>
-              <h3 className="font-bold text-gray-900 mt-2 mb-1">{offer.title}</h3>
-              <p className="text-sm text-gray-500 mb-4">{offer.description}</p>
+              <h3 className="font-bold text-gray-100 mt-2 mb-1">{offer.title}</h3>
+              <p className="text-sm text-gray-400 mb-4">{offer.description}</p>
               {offer.discount && (
                 <span className="inline-block text-sm font-bold text-green-700 bg-green-50 px-2 py-1 rounded mb-3">{offer.discount}</span>
               )}

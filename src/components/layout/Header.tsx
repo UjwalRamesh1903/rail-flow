@@ -87,7 +87,7 @@ export function Header() {
 
   return (
     <>
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-40">
+      <header className="bg-[#0a0e17]/90 backdrop-blur-md border-b border-white/10 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="shrink-0">
@@ -103,8 +103,8 @@ export function Header() {
                   className={cn(
                     'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
                     isActive(item.path)
-                      ? 'text-irctc-blue bg-irctc-blue-light/50'
-                      : 'text-gray-600 hover:text-irctc-blue hover:bg-gray-50'
+                      ? 'text-irctc-blue bg-irctc-blue-light/40'
+                      : 'text-gray-300 hover:text-white hover:bg-white/5'
                   )}
                 >
                   <item.icon className="w-4 h-4" />
@@ -117,18 +117,18 @@ export function Header() {
                   onClick={() => setMoreOpen(!moreOpen)}
                   className={cn(
                     'flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
-                    moreOpen ? 'text-irctc-blue bg-irctc-blue-light/50' : 'text-gray-600 hover:text-irctc-blue hover:bg-gray-50'
+                    moreOpen ? 'text-irctc-blue bg-irctc-blue-light/40' : 'text-gray-300 hover:text-white hover:bg-white/5'
                   )}
                 >
                   More <ChevronDown className={cn('w-4 h-4 transition-transform', moreOpen && 'rotate-180')} />
                 </button>
                 {moreOpen && (
-                  <div className="absolute top-full right-0 mt-1 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-1 animate-slide-down">
+                  <div className="absolute top-full right-0 mt-1 w-52 bg-[#1a2332] rounded-xl shadow-xl border border-white/10 py-1 animate-slide-down">
                     {moreItems.map((item) => (
                       <button
                         key={item.label}
                         onClick={() => { navigate(item.path); setMoreOpen(false) }}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-irctc-blue-light/50 hover:text-irctc-blue transition-colors"
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
                       >
                         <item.icon className="w-4 h-4" />
                         {item.label}
@@ -144,20 +144,20 @@ export function Header() {
               <div ref={langRef} className="relative hidden sm:block">
                 <button
                   onClick={() => setLangOpen(!langOpen)}
-                  className="flex items-center gap-1.5 px-3 py-2 border border-gray-200 rounded-full text-sm text-gray-600 hover:border-irctc-blue transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-2 border border-white/15 rounded-full text-sm text-gray-300 hover:border-irctc-blue transition-colors"
                 >
                   <Globe className="w-4 h-4" />
                   <span className="hidden md:inline">{selectedLang}</span>
                   <ChevronDown className="w-3.5 h-3.5" />
                 </button>
                 {langOpen && (
-                  <div className="absolute top-full right-0 mt-1 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-1 animate-slide-down">
+                  <div className="absolute top-full right-0 mt-1 w-40 bg-[#1a2332] rounded-xl shadow-xl border border-white/10 py-1 animate-slide-down">
                     {languages.map((lang) => (
                       <button
                         key={lang}
                         onClick={() => { setSelectedLang(lang); setLangOpen(false); showToast(`Language changed to ${lang}`, 'info') }}
                         className={cn(
-                          'w-full px-4 py-2 text-sm text-left hover:bg-irctc-blue-light/50 transition-colors',
+                          'w-full px-4 py-2 text-sm text-left text-gray-300 hover:bg-white/5 transition-colors',
                           selectedLang === lang && 'text-irctc-blue font-medium bg-irctc-blue-light/30'
                         )}
                       >
@@ -170,10 +170,10 @@ export function Header() {
 
               {isAuthenticated ? (
                 <div className="flex items-center gap-2">
-                  <span className="hidden md:inline text-sm font-medium text-gray-700">{user?.name}</span>
+                  <span className="hidden md:inline text-sm font-medium text-gray-300">{user?.name}</span>
                   <button
                     onClick={() => { logout(); showToast('Logged out successfully', 'info') }}
-                    className="text-sm text-gray-600 hover:text-irctc-blue font-medium px-3 py-2"
+                    className="text-sm text-gray-400 hover:text-white font-medium px-3 py-2"
                   >
                     Logout
                   </button>
@@ -191,7 +191,7 @@ export function Header() {
 
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="xl:hidden p-2 rounded-lg hover:bg-gray-100"
+                className="xl:hidden p-2 rounded-lg hover:bg-white/10 text-gray-300"
               >
                 {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -201,7 +201,7 @@ export function Header() {
 
         {/* Mobile Nav */}
         {mobileOpen && (
-          <div className="xl:hidden border-t border-gray-100 bg-white animate-slide-down">
+          <div className="xl:hidden border-t border-white/10 bg-[#111827] animate-slide-down">
             <nav className="px-4 py-3 space-y-1">
               {navItems.map((item) => (
                 <Link
@@ -209,19 +209,19 @@ export function Header() {
                   to={item.path}
                   className={cn(
                     'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium',
-                    isActive(item.path) ? 'text-irctc-blue bg-irctc-blue-light/50' : 'text-gray-600'
+                    isActive(item.path) ? 'text-irctc-blue bg-irctc-blue-light/40' : 'text-gray-300'
                   )}
                 >
                   <item.icon className="w-4 h-4" />
                   {item.label}
                 </Link>
               ))}
-              <div className="border-t border-gray-100 pt-2 mt-2">
+              <div className="border-t border-white/10 pt-2 mt-2">
                 {moreItems.map((item) => (
                   <button
                     key={item.label}
                     onClick={() => navigate(item.path)}
-                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600"
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-300"
                   >
                     <item.icon className="w-4 h-4" />
                     {item.label}
@@ -235,31 +235,31 @@ export function Header() {
 
       {/* Auth Modal */}
       <Modal isOpen={authOpen} onClose={() => setAuthOpen(false)} title={authMode === 'login' ? 'Login' : 'Sign Up'} size="sm">
-        <form onSubmit={handleAuth} className="p-6 space-y-4">
+        <form onSubmit={handleAuth} className="space-y-4">
           {authMode === 'signup' && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-              <input name="name" type="text" className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" placeholder="Enter your name" />
+              <label className="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
+              <input name="name" type="text" className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" placeholder="Enter your name" />
             </div>
           )}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input name="email" type="email" required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" placeholder="Enter your email" />
+            <label className="block text-sm font-medium text-gray-300 mb-1">Email</label>
+            <input name="email" type="email" required className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" placeholder="Enter your email" />
           </div>
           {authMode === 'signup' && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-              <input name="phone" type="tel" className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" placeholder="Enter phone number" />
+              <label className="block text-sm font-medium text-gray-300 mb-1">Phone</label>
+              <input name="phone" type="tel" className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" placeholder="Enter phone number" />
             </div>
           )}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input name="password" type="password" required className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" placeholder="Enter password" />
+            <label className="block text-sm font-medium text-gray-300 mb-1">Password</label>
+            <input name="password" type="password" required className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" placeholder="Enter password" />
           </div>
           <Button type="submit" className="w-full" size="lg">
             {authMode === 'login' ? 'Login' : 'Create Account'}
           </Button>
-          <p className="text-center text-sm text-gray-500">
+          <p className="text-center text-sm text-gray-400">
             {authMode === 'login' ? "Don't have an account? " : 'Already have an account? '}
             <button
               type="button"

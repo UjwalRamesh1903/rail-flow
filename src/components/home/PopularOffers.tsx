@@ -15,12 +15,12 @@ export function PopularOffers() {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12 bg-[#0a0e17]">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl lg:text-2xl font-bold text-gray-900">Popular Offers</h2>
+        <h2 className="text-xl lg:text-2xl font-bold text-white">Popular Offers</h2>
         <button
           onClick={() => navigate('/offers')}
-          className="text-irctc-blue text-sm font-semibold hover:underline flex items-center gap-1"
+          className="text-blue-400 text-sm font-semibold hover:underline flex items-center gap-1"
         >
           View All Offers <ChevronRight className="w-4 h-4" />
         </button>
@@ -31,26 +31,26 @@ export function PopularOffers() {
           <div
             key={offer.id}
             onClick={() => navigate('/offers')}
-            className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all cursor-pointer group"
+            className="bg-[#1a2332] rounded-2xl border border-white/10 overflow-hidden hover:border-white/20 hover:shadow-xl hover:shadow-black/30 transition-all cursor-pointer group"
           >
             <div className="h-36 overflow-hidden">
               <img
                 src={offer.image}
                 alt={offer.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90"
               />
             </div>
             <div className="p-4">
-              <h3 className="font-bold text-gray-900 text-sm leading-snug mb-3 min-h-[40px]">
+              <h3 className="font-bold text-gray-100 text-sm leading-snug mb-3 min-h-[40px]">
                 {offer.title}
               </h3>
               {offer.type === 'coupon' && offer.code ? (
                 <button
                   onClick={(e) => handleCoupon(offer.code!, e)}
                   className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-colors ${
-                    offer.id === 'o1' ? 'bg-green-100 text-green-700 hover:bg-green-200' :
-                    offer.id === 'o2' ? 'bg-orange-100 text-orange-700 hover:bg-orange-200' :
-                    'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                    offer.id === 'o1' ? 'bg-green-900/50 text-green-400 hover:bg-green-900/70' :
+                    offer.id === 'o2' ? 'bg-orange-900/50 text-orange-400 hover:bg-orange-900/70' :
+                    'bg-blue-900/50 text-blue-400 hover:bg-blue-900/70'
                   }`}
                 >
                   Use Code: {offer.code}

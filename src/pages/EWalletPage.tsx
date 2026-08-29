@@ -26,7 +26,7 @@ export function EWalletPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">IRCTC e-Wallet</h1>
+      <h1 className="text-2xl font-bold text-gray-100 mb-6">IRCTC e-Wallet</h1>
 
       <div className="bg-gradient-to-br from-irctc-blue to-irctc-blue-dark rounded-2xl p-6 text-white mb-6">
         <div className="flex items-center gap-2 mb-2 opacity-80">
@@ -37,17 +37,17 @@ export function EWalletPage() {
         <Button
           variant="secondary"
           onClick={() => setAddOpen(true)}
-          className="bg-white/20 text-white hover:bg-white/30 border-0"
+          className="bg-[#1a2332]/20 text-white hover:bg-[#1a2332]/30 border-0"
         >
           <Plus className="w-4 h-4 mr-1" /> Add Money
         </Button>
       </div>
 
-      <h2 className="font-bold text-gray-900 mb-4">Recent Transactions</h2>
+      <h2 className="font-bold text-gray-100 mb-4">Recent Transactions</h2>
       {walletTransactions.length === 0 ? (
-        <div className="bg-white rounded-2xl border p-8 text-center text-gray-500">No transactions yet.</div>
+        <div className="bg-[#1a2332] rounded-2xl border p-8 text-center text-gray-400">No transactions yet.</div>
       ) : (
-        <div className="bg-white rounded-2xl border border-gray-100 divide-y">
+        <div className="bg-[#1a2332] rounded-2xl border border-white/10 divide-y">
           {walletTransactions.map((tx) => (
             <div key={tx.id} className="flex items-center gap-3 p-4">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
@@ -60,7 +60,7 @@ export function EWalletPage() {
               </div>
               <div className="flex-1">
                 <div className="font-medium text-sm">{tx.description}</div>
-                <div className="text-xs text-gray-500">{tx.date}</div>
+                <div className="text-xs text-gray-400">{tx.date}</div>
               </div>
               <div className={`font-bold text-sm ${tx.type === 'credit' ? 'text-green-600' : 'text-red-600'}`}>
                 {tx.type === 'credit' ? '+' : '-'}₹{tx.amount}
@@ -73,14 +73,14 @@ export function EWalletPage() {
       <Modal isOpen={addOpen} onClose={() => setAddOpen(false)} title="Add Money to Wallet" size="sm">
         <form onSubmit={handleAddMoney} className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Amount (₹)</label>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Amount (₹)</label>
             <input
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               min={100}
               placeholder="Enter amount (min ₹100)"
-              className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
+              className="surface-input w-full px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30"
             />
           </div>
           <div className="flex gap-2">
@@ -89,7 +89,7 @@ export function EWalletPage() {
                 key={a}
                 type="button"
                 onClick={() => setAmount(String(a))}
-                className="flex-1 py-2 border border-gray-200 rounded-lg text-sm font-medium hover:border-irctc-blue hover:text-irctc-blue transition-colors"
+                className="flex-1 py-2 border border-white/10 rounded-lg text-sm font-medium hover:border-irctc-blue hover:text-irctc-blue transition-colors"
               >
                 ₹{a}
               </button>

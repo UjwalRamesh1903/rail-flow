@@ -47,15 +47,15 @@ export function PaymentPage() {
         <ArrowLeft className="w-4 h-4" /> Back
       </button>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Payment</h1>
+      <h1 className="text-2xl font-bold text-gray-100 mb-6">Payment</h1>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-5 mb-4">
+      <div className="bg-[#1a2332] rounded-2xl border border-white/10 p-5 mb-4">
         <div className="flex justify-between items-center mb-4">
-          <span className="text-gray-600">Amount to Pay</span>
+          <span className="text-gray-400">Amount to Pay</span>
           <span className="text-2xl font-bold text-irctc-blue">₹{totalFare}</span>
         </div>
 
-        <h3 className="font-semibold text-gray-900 mb-3">Select Payment Method</h3>
+        <h3 className="font-semibold text-gray-100 mb-3">Select Payment Method</h3>
         <div className="space-y-2">
           {methods.map((m) => (
             <button
@@ -63,7 +63,7 @@ export function PaymentPage() {
               onClick={() => setMethod(m.id)}
               className={cn(
                 'w-full flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left',
-                method === m.id ? 'border-irctc-blue bg-irctc-blue-light/30' : 'border-gray-100 hover:border-gray-200'
+                method === m.id ? 'border-irctc-blue bg-irctc-blue-light/30' : 'border-white/10 hover:border-white/10'
               )}
             >
               <m.icon className="w-5 h-5 text-irctc-blue" />
@@ -74,17 +74,17 @@ export function PaymentPage() {
 
         {method === 'card' && (
           <div className="mt-4 space-y-3">
-            <input placeholder="Card Number" className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
+            <input placeholder="Card Number" className="surface-input w-full px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
             <div className="grid grid-cols-2 gap-3">
-              <input placeholder="MM/YY" className="px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
-              <input placeholder="CVV" className="px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
+              <input placeholder="MM/YY" className="px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
+              <input placeholder="CVV" className="px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
             </div>
           </div>
         )}
 
         {method === 'upi' && (
           <div className="mt-4">
-            <input placeholder="Enter UPI ID" className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
+            <input placeholder="Enter UPI ID" className="surface-input w-full px-3 py-2.5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
           </div>
         )}
       </div>
