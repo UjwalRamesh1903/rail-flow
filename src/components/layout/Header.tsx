@@ -6,8 +6,7 @@ import {
   Map, Info, HelpCircle,
 } from 'lucide-react'
 import { IRCTCLogo } from '../ui/IRCTCLogo'
-import { Modal } from '../ui/Modal'
-import { Button } from '../ui/Button'
+import { LoginModal } from '../auth/LoginModal'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
 import { useLanguage } from '../../context/LanguageContext'
@@ -35,7 +34,7 @@ const moreItems: { key: TranslationKey; icon: typeof Package; path: string }[] =
 export function Header() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { user, isAuthenticated, login, signup, logout } = useAuth()
+  const { user, isAuthenticated, logout } = useAuth()
   const { showToast } = useToast()
   const { t, language, setLanguage, languageLabel } = useLanguage()
 
@@ -43,7 +42,6 @@ export function Header() {
   const [moreOpen, setMoreOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [authOpen, setAuthOpen] = useState(false)
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
 
   const moreRef = useRef<HTMLDivElement>(null)
   const langRef = useRef<HTMLDivElement>(null)
@@ -58,27 +56,6 @@ export function Header() {
   }, [])
 
   useEffect(() => { setMobileOpen(false) }, [location.pathname])
-
-  const handleAuth = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const fd = new FormData(e.currentTarget)
-    if (authMode === 'login') {
-      const email = fd.get('email') as string
-      const password = fd.get('password') as string
-      if (!email || !password) { showToast(t('auth.fillAll'), 'error'); return }
-      login(email, password)
-      showToast(t('auth.loginSuccess'), 'success')
-    } else {
-      const name = fd.get('name') as string
-      const email = fd.get('email') as string
-      const phone = fd.get('phone') as string
-      const password = fd.get('password') as string
-      if (!name || !email || !phone || !password) { showToast(t('auth.fillAll'), 'error'); return }
-      signup(name, email, phone, password)
-      showToast(t('auth.signupSuccess'), 'success')
-    }
-    setAuthOpen(false)
-  }
 
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/'
@@ -182,7 +159,7 @@ export function Header() {
                 </div>
               ) : (
                 <button
-                  onClick={() => { setAuthMode('login'); setAuthOpen(true) }}
+                  onClick={() => setAuthOpen(true)}
                   className="flex items-center gap-1.5 bg-irctc-blue text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-irctc-blue-dark transition-colors"
                 >
                   <User className="w-4 h-4" />
@@ -249,43 +226,7 @@ export function Header() {
         )}
       </header>
 
-      <Modal isOpen={authOpen} onClose={() => setAuthOpen(false)} title={authMode === 'login' ? t('auth.login') : t('auth.signup')} size="sm">
-        <form onSubmit={handleAuth} className="space-y-4">
-          {authMode === 'signup' && (
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">{t('auth.fullName')}</label>
-              <input name="name" type="text" className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
-            </div>
-          )}
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">{t('auth.email')}</label>
-            <input name="email" type="email" required className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
-          </div>
-          {authMode === 'signup' && (
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">{t('auth.phone')}</label>
-              <input name="phone" type="tel" className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
-            </div>
-          )}
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">{t('auth.password')}</label>
-            <input name="password" type="password" required className="surface-input w-full px-3 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-irctc-blue/30" />
-          </div>
-          <Button type="submit" className="w-full" size="lg">
-            {authMode === 'login' ? t('auth.loginBtn') : t('auth.createAccount')}
-          </Button>
-          <p className="text-center text-sm text-gray-400">
-            {authMode === 'login' ? t('auth.noAccount') : t('auth.hasAccount')}{' '}
-            <button
-              type="button"
-              onClick={() => setAuthMode(authMode === 'login' ? 'signup' : 'login')}
-              className="text-irctc-blue font-semibold hover:underline"
-            >
-              {authMode === 'login' ? t('auth.signUp') : t('auth.loginBtn')}
-            </button>
-          </p>
-        </form>
-      </Modal>
+      <LoginModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
     </>
   )
 }

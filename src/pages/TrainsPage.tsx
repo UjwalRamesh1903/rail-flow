@@ -2,19 +2,28 @@ import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight, Clock, Filter, X } from 'lucide-react'
 import { useBooking } from '../context/BookingContext'
+import { useAuth } from '../context/AuthContext'
+import { useToast } from '../context/ToastContext'
+import { useLanguage } from '../context/LanguageContext'
+import { LoginModal } from '../components/auth/LoginModal'
 import { getTrainsForRoute } from '../data/trains'
 import { formatJourneyDate } from '../utils/formatDate'
 import { cn } from '../utils/cn'
-import type { Train } from '../types'
+import type { Train, TrainClass } from '../types'
 
 export function TrainsPage() {
   const navigate = useNavigate()
   const { search, setSelectedTrain } = useBooking()
+  const { isAuthenticated } = useAuth()
+  const { showToast } = useToast()
+  const { t } = useLanguage()
   const [departureFilter, setDepartureFilter] = useState('all')
   const [typeFilter, setTypeFilter] = useState('all')
   const [classFilter, setClassFilter] = useState('all')
   const [availFilter, setAvailFilter] = useState('all')
   const [showFilters, setShowFilters] = useState(false)
+  const [authOpen, setAuthOpen] = useState(false)
+  const [pendingSelection, setPendingSelection] = useState<{ train: Train; cls: TrainClass } | null>(null)
 
   const allTrains = useMemo(() => {
     if (!search.from || !search.to) return []
@@ -48,6 +57,26 @@ export function TrainsPage() {
   const handleSelectTrain = (train: Train, cls: Train['classes'][0]) => {
     setSelectedTrain({ train, selectedClass: cls })
     navigate('/passenger-details')
+  }
+
+  const handleClassClick = (train: Train, cls: Train['classes'][0]) => {
+    if (cls.availability === 'Not Available') return
+
+    if (!isAuthenticated) {
+      setPendingSelection({ train, cls })
+      showToast(t('auth.loginRequired'), 'info')
+      setAuthOpen(true)
+      return
+    }
+
+    handleSelectTrain(train, cls)
+  }
+
+  const handleLoginSuccess = () => {
+    if (pendingSelection) {
+      handleSelectTrain(pendingSelection.train, pendingSelection.cls)
+      setPendingSelection(null)
+    }
   }
 
   if (!search.from || !search.to) {
@@ -184,7 +213,7 @@ export function TrainsPage() {
                         .map((cls) => (
                           <button
                             key={cls.code}
-                            onClick={() => cls.availability !== 'Not Available' && handleSelectTrain(train, cls)}
+                            onClick={() => handleClassClick(train, cls)}
                             disabled={cls.availability === 'Not Available'}
                             className={cn(
                               'px-3 py-2 rounded-lg border text-xs text-left min-w-[120px] transition-all',
@@ -214,6 +243,12 @@ export function TrainsPage() {
           )}
         </div>
       </div>
+
+      <LoginModal
+        isOpen={authOpen}
+        onClose={() => { setAuthOpen(false); setPendingSelection(null) }}
+        onSuccess={handleLoginSuccess}
+      />
     </div>
   )
 }

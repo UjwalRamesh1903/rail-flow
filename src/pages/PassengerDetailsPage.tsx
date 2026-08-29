@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, User, Mail, Shield, MapPin } from 'lucide-react'
 import { useBooking } from '../context/BookingContext'
+import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { Button } from '../components/ui/Button'
 import type { Passenger } from '../types'
@@ -11,8 +12,15 @@ const idProofTypes = ['Aadhaar', 'Voter ID', 'Passport', 'Driving License', 'PAN
 export function PassengerDetailsPage() {
   const navigate = useNavigate()
   const { search, selectedTrain, setPassengerDetails, bookingExtras, setBookingExtras } = useBooking()
+  const { isAuthenticated } = useAuth()
   const { showToast } = useToast()
   const totalPassengers = search.adults + search.children
+
+  useEffect(() => {
+    if (!isAuthenticated || !selectedTrain) {
+      navigate('/trains')
+    }
+  }, [isAuthenticated, selectedTrain, navigate])
 
   const [passengers, setPassengers] = useState<Passenger[]>(
     Array.from({ length: totalPassengers }, () => ({

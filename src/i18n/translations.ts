@@ -27,6 +27,7 @@ export type TranslationKey =
   | 'help.station' | 'help.stationSub' | 'help.feedback'
   | 'footer.copyright' | 'footer.disclaimer'
   | 'auth.login' | 'auth.signup' | 'auth.fullName' | 'auth.email' | 'auth.phone' | 'auth.password'
+  | 'auth.nameOrEmail' | 'auth.nameOrEmailPlaceholder' | 'auth.invalidCredentials' | 'auth.loginRequired' | 'auth.demoHint'
   | 'auth.createAccount' | 'auth.noAccount' | 'auth.hasAccount' | 'auth.signUp' | 'auth.loginBtn'
   | 'auth.fillAll' | 'auth.loginSuccess' | 'auth.signupSuccess' | 'auth.logoutSuccess'
   | 'lang.changed'
@@ -113,6 +114,11 @@ const en: Translations = {
   'auth.email': 'Email',
   'auth.phone': 'Phone',
   'auth.password': 'Password',
+  'auth.nameOrEmail': 'Name or Email',
+  'auth.nameOrEmailPlaceholder': 'e.g. Rohit Sharma',
+  'auth.invalidCredentials': 'Invalid name/email or password',
+  'auth.loginRequired': 'Please login to continue booking',
+  'auth.demoHint': 'Demo: Rohit Sharma / Hitman · Tony Stark / Ironman · Ujwal Ramesh / Guddu',
   'auth.createAccount': 'Create Account',
   'auth.noAccount': "Don't have an account?",
   'auth.hasAccount': 'Already have an account?',
@@ -224,6 +230,11 @@ const hi: Translations = {
   'auth.email': 'ईमेल',
   'auth.phone': 'फोन',
   'auth.password': 'पासवर्ड',
+  'auth.nameOrEmail': 'नाम या ईमेल',
+  'auth.nameOrEmailPlaceholder': 'जैसे Rohit Sharma',
+  'auth.invalidCredentials': 'गलत नाम/ईमेल या पासवर्ड',
+  'auth.loginRequired': 'बुकिंग जारी रखने के लिए लॉगिन करें',
+  'auth.demoHint': 'डेमो: Rohit Sharma / Hitman · Tony Stark / Ironman · Ujwal Ramesh / Guddu',
   'auth.createAccount': 'खाता बनाएं',
   'auth.noAccount': 'खाता नहीं है?',
   'auth.hasAccount': 'पहले से खाता है?',

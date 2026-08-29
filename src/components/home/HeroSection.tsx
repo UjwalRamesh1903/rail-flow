@@ -1,8 +1,7 @@
 import { SearchCard } from '../booking/SearchCard'
 import { useLanguage } from '../../context/LanguageContext'
 
-const HERO_IMAGE =
-  'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=1920&h=900&fit=crop&q=80'
+const HERO_IMAGE = `${import.meta.env.BASE_URL}images/hero-trains.jpg`
 
 export function HeroSection() {
   const { t } = useLanguage()
@@ -12,12 +11,12 @@ export function HeroSection() {
       <div className="absolute inset-0">
         <img
           src={HERO_IMAGE}
-          alt="Vande Bharat Express train at sunset"
-          className="w-full h-full object-cover object-[65%_center] lg:object-right"
+          alt="Indian Railways trains at sunset"
+          className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0e17] via-[#0a0e17]/88 to-[#0a0e17]/25" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e17] via-[#0a0e17]/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0e17]/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0e17] via-[#0a0e17]/85 to-[#0a0e17]/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e17] via-[#0a0e17]/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0e17]/70 via-transparent to-transparent" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-28 lg:pt-14 lg:pb-32">
