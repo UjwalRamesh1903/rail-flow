@@ -20,28 +20,23 @@ function status(num: number, booked: Set<number>): BerthStatus {
   return booked.has(num) ? 'booked' : 'available'
 }
 
-/** NTES-style AC 3 Tier — 64 berths */
+/** NTES-style AC 3 Tier — 64 berths, 8 bays × 8 berths */
 export function generate3ACLayout(coachId: string): Berth[] {
   const berths: Berth[] = []
   const booked = getBookedSeeds(coachId, 64)
-  let main = 1
-  let side = 7
 
   for (let section = 1; section <= 8; section++) {
+    const base = (section - 1) * 8 + 1
     berths.push(
-      { number: main, type: 'LOWER', status: status(main, booked), section },
-      { number: main + 1, type: 'MIDDLE', status: status(main + 1, booked), section },
-      { number: main + 2, type: 'UPPER', status: status(main + 2, booked), section },
+      { number: base, type: 'LOWER', status: status(base, booked), section },
+      { number: base + 1, type: 'MIDDLE', status: status(base + 1, booked), section },
+      { number: base + 2, type: 'UPPER', status: status(base + 2, booked), section },
+      { number: base + 3, type: 'LOWER', status: status(base + 3, booked), section },
+      { number: base + 4, type: 'MIDDLE', status: status(base + 4, booked), section },
+      { number: base + 5, type: 'UPPER', status: status(base + 5, booked), section },
+      { number: base + 6, type: 'S.LOWER', status: status(base + 6, booked), section },
+      { number: base + 7, type: 'S.UPPER', status: status(base + 7, booked), section },
     )
-    main += 3
-
-    if (section % 2 === 1) {
-      berths.push({ number: side, type: 'S.LOWER', status: status(side, booked), section })
-      side++
-    } else {
-      berths.push({ number: side, type: 'S.UPPER', status: status(side, booked), section })
-      side += 7
-    }
   }
   return berths
 }
@@ -49,13 +44,14 @@ export function generate3ACLayout(coachId: string): Berth[] {
 export function generate2ALayout(coachId: string): Berth[] {
   const berths: Berth[] = []
   const booked = getBookedSeeds(coachId, 48)
-  let num = 1
+
   for (let section = 1; section <= 12; section++) {
+    const base = (section - 1) * 4 + 1
     berths.push(
-      { number: num++, type: 'LOWER', status: status(num - 1, booked), section },
-      { number: num++, type: 'UPPER', status: status(num - 1, booked), section },
-      { number: num++, type: 'SIDE_LOWER', status: status(num - 1, booked), section },
-      { number: num++, type: 'SIDE_UPPER', status: status(num - 1, booked), section },
+      { number: base, type: 'LOWER', status: status(base, booked), section },
+      { number: base + 1, type: 'UPPER', status: status(base + 1, booked), section },
+      { number: base + 2, type: 'SIDE_LOWER', status: status(base + 2, booked), section },
+      { number: base + 3, type: 'SIDE_UPPER', status: status(base + 3, booked), section },
     )
   }
   return berths
@@ -64,22 +60,19 @@ export function generate2ALayout(coachId: string): Berth[] {
 export function generateSleeperLayout(coachId: string): Berth[] {
   const berths: Berth[] = []
   const booked = getBookedSeeds(coachId, 72)
-  let main = 1
-  let side = 7
+
   for (let section = 1; section <= 9; section++) {
+    const base = (section - 1) * 8 + 1
     berths.push(
-      { number: main, type: 'LOWER', status: status(main, booked), section },
-      { number: main + 1, type: 'MIDDLE', status: status(main + 1, booked), section },
-      { number: main + 2, type: 'UPPER', status: status(main + 2, booked), section },
+      { number: base, type: 'LOWER', status: status(base, booked), section },
+      { number: base + 1, type: 'MIDDLE', status: status(base + 1, booked), section },
+      { number: base + 2, type: 'UPPER', status: status(base + 2, booked), section },
+      { number: base + 3, type: 'LOWER', status: status(base + 3, booked), section },
+      { number: base + 4, type: 'MIDDLE', status: status(base + 4, booked), section },
+      { number: base + 5, type: 'UPPER', status: status(base + 5, booked), section },
+      { number: base + 6, type: 'S.LOWER', status: status(base + 6, booked), section },
+      { number: base + 7, type: 'S.UPPER', status: status(base + 7, booked), section },
     )
-    main += 3
-    if (section % 2 === 1) {
-      berths.push({ number: side, type: 'S.LOWER', status: status(side, booked), section })
-      side++
-    } else {
-      berths.push({ number: side, type: 'S.UPPER', status: status(side, booked), section })
-      side += 7
-    }
   }
   return berths
 }
