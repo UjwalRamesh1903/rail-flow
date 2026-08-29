@@ -1,14 +1,18 @@
-const logoSrc = `${import.meta.env.BASE_URL}images/irctc-logo.png`
+const logoWebp = `${import.meta.env.BASE_URL}images/irctc-logo.webp`
+const logoPng = `${import.meta.env.BASE_URL}images/irctc-logo.png`
 
 export function IRCTCLogo({ className = '' }: { className?: string }) {
   return (
-    <img
-      src={logoSrc}
-      alt="IRCTC - Indian Railway Catering and Tourism Corporation"
-      className={`h-11 w-auto object-contain ${className}`}
-      width={120}
-      height={44}
-      decoding="async"
-    />
+    <picture>
+      <source srcSet={logoWebp} type="image/webp" />
+      <img
+        src={logoPng}
+        alt="IRCTC - Indian Railway Catering and Tourism Corporation. Safar Aasaan, Zindagi Khushhaal"
+        className={`h-14 sm:h-16 w-auto object-contain object-left ${className}`}
+        width={320}
+        height={292}
+        decoding="async"
+      />
+    </picture>
   )
 }

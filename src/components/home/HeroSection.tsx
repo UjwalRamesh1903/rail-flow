@@ -15,16 +15,16 @@ export function HeroSection() {
           <img
             src={HERO_JPG}
             alt="Indian Railways trains at sunset"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-[70%_center] lg:object-[right_center]"
             fetchPriority="high"
             decoding="async"
             width={1400}
-            height={933}
+            height={747}
           />
         </picture>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0e17] via-[#0a0e17]/85 to-[#0a0e17]/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e17] via-[#0a0e17]/50 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0e17]/70 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0e17] via-[#0a0e17]/75 to-[#0a0e17]/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e17] via-[#0a0e17]/35 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0e17]/55 via-transparent to-[#0a0e17]/20" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-28 lg:pt-14 lg:pb-32">
